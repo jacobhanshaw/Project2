@@ -1,5 +1,15 @@
 #include "shader.h"
 
+bool Shader::CheckGLErrors()
+{
+	bool error_found = false;
+	while (glGetError() != GL_NO_ERROR)
+	{
+		error_found = true;
+	}
+	return error_found;
+}
+
 Shader::Shader()
 {
 	this->vertex_shader_id = (GLuint) -1;
@@ -58,6 +68,7 @@ bool Shader::Initialize(char * vertex_shader_file, char * fragment_shader_file)
 	this->size_handle = glGetUniformLocation(this->program_id, (const GLchar *) "framebuffer_size");
 	this->center_handle_red = glGetUniformLocation(this->program_id, (const GLchar *) "center_red");
 	this->center_handle_green = glGetUniformLocation(this->program_id, (const GLchar *) "center_green");
+	this->mouse_position = glGetUniformLocation(this->program_id, (const GLchar *) "mouse_position");
 	glUseProgram(0);
 
 	return !CheckGLErrors();
@@ -136,12 +147,3 @@ stringstream Shader::GetShaderLog(GLuint shader_id)
 	return s;
 }
 
-bool CheckGLErrors()
-{
-	bool error_found = false;
-	while (glGetError() != GL_NO_ERROR)
-	{
-		error_found = true;
-	}
-	return error_found;
-}

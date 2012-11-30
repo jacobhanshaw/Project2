@@ -12,6 +12,7 @@ layout (location = 0) out vec4 fragment_color;
 uniform ivec2 framebuffer_size;
 uniform ivec2 center_red;
 uniform ivec2 center_green;
+uniform ivec2 mouse_position;
 
 void main(void)
 {
@@ -19,7 +20,9 @@ void main(void)
 	vec2 c_green = center_green / float(framebuffer_size);
 	vec2 c_red = center_red / float(framebuffer_size);
 	vec2 f = gl_FragCoord.xy / float(framebuffer_size);
-	float distance_red = length(f - c_red);
-	float distance_green = length(f - c_green);
-	fragment_color = vec4(1-distance_red, distance_green, 0, 1);
+	vec2 m = mouse_position.xy / float(framebuffer_size);
+	float distance = length(f - m);
+	if(distance <= .01) {
+		fragment_color = vec4(1, 1, 0, 1);
+	} else { fragment_color = vec4(0, 0, 1, 1); }
 }

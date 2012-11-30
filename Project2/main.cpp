@@ -43,6 +43,10 @@
 
 #include "shader.h"
 
+Shader shader = Shader();
+int lastMouseXPosition = -1;
+int lastMouseYPosition = -1;
+glm::vec2 mousePos;
 
 
 using namespace std;
@@ -227,7 +231,8 @@ void Window::ModernMode()
 	shader.Use();
 	glUniform2i(shader.size_handle, this->width, this->height);
 	glUniform2i(shader.center_handle_red, 256, 256);
-	glUniform2i(shader.center_handle_green, 100, 100);
+	glUniform2i(shader.center_handle_green, 100, 100);	
+	glUniform2i(shader.mouse_position, mousePos.x, this->height-mousePos.y);
 
 	glViewport(0, 0, this->width, this->height);
 
@@ -277,6 +282,7 @@ void ReshapeFunc(int w, int h)
 {
 	if (h == 0)
 		return;
+
 	window.width = w;
 	window.height = h;
 }
@@ -311,13 +317,55 @@ void CloseFunc()
 	window.handle = (GLuint) -1;
 }
 
+
+void MouseFunc(int button, int state, int x, int y){
+	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		lastMouseXPosition = x;
+		lastMouseYPosition = y;
+		cout << "\nReceived Left Button Down with XPos: ";
+		cout << x;
+		cout << " and YPos: ";
+		cout << y;
+	}
+	else if(button !=GLUT_RIGHT_BUTTON && button != GLUT_MIDDLE_BUTTON) {
+		lastMouseXPosition = -1;
+		lastMouseYPosition = -1;
+		cout << "\nReset Mouse Position";
+	}
+	mousePos.x = x;
+	mousePos.y = y;
+}
+
+void MotionFunc(int x, int y) {
+	if(x > window.width || x < 0 || y > window.height || y < 0){
+		lastMouseXPosition = -1;
+		lastMouseYPosition = -1;
+	}
+	if(lastMouseXPosition != -1 && lastMouseYPosition != -1){
+		int differenceX = x - lastMouseXPosition;
+		int differenceY = y - lastMouseYPosition;
+		cout << "\nReceived Motion Update with XPos: ";
+		cout << x;
+		cout << " and YPos: ";
+		cout << y;
+		cout << "\nDifference in Motion Update from lastXPos: ";
+		cout << differenceX;
+		cout << " and lastYPos: ";
+		cout << differenceY;
+		lastMouseXPosition = x;
+		lastMouseYPosition = y;
+	}
+	mousePos.x = x;
+	mousePos.y = y;
+}
+
 int main(int argc, char * argv[])
 {
 	glutInit(&argc , argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowPosition(0 , 0);
 	glutInitWindowSize(window.width , window.height);
-	window.handle = glutCreateWindow("OpenGL Drawing Methods Through The Ages - Perry Kivolowitz");
+	window.handle = glutCreateWindow("Project 2 - Adam Hart and Jacob Hanshaw");
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(1000 / 60, TimerFunc, 1000 / 60);
 	glutReshapeFunc(ReshapeFunc);
@@ -325,6 +373,10 @@ int main(int argc, char * argv[])
 	glutKeyboardFunc(KeyboardFunc);
 	glutCloseFunc(CloseFunc);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+
+	glutMouseFunc(MouseFunc);
+	glutMotionFunc(MotionFunc);
+
 
 	if (glewInit() != GLEW_OK)
 	{

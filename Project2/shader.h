@@ -12,8 +12,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp> 
 
+using namespace std;
+
 class Shader {
-	
+private:
+	bool CheckGLErrors();
+
 public:
 	Shader();
 	void TakeDown();
@@ -28,5 +32,5 @@ public:
 	GLuint size_handle;
 	GLuint center_handle_red;
 	GLuint center_handle_green;
-
-} 
+	GLuint mouse_position;
+};

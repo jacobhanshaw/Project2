@@ -1,73 +1,20 @@
-﻿Build started 11/29/2012 12:05:02 AM.
-     1>Project "C:\Users\Adam\Documents\GitHub\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
+﻿Build started 11/29/2012 7:39:24 PM.
+     1>Project "\\wfs1\users$\hart\Desktop\p2\Project2\Project2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\Project2.unsuccessfulbuild".
+         Creating "Debug\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\freeglut\include" /I"C:\Program Files (x86)\glew-1.9.0\include" /I"C:\Program Files (x86)\glm-0.9.3.4" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp shader.cpp
-         shader.cpp
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C2146: syntax error : missing ';' before identifier 'GetShaderLog'
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): warning C4183: 'GetShaderLog': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(4): error C2533: 'Shader::{ctor}' : constructors not allowed a return type
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(21): error C3861: 'CheckGLErrors': identifier not found
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(30): error C2065: 'cerr' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(30): error C2228: left of '.str' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(31): error C2065: 'cerr' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(31): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(35): error C3861: 'CheckGLErrors': identifier not found
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(44): error C2065: 'cerr' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(44): error C2228: left of '.str' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(45): error C2065: 'cerr' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(45): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(63): error C3861: 'CheckGLErrors': identifier not found
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(96): error C3861: 'CheckGLErrors': identifier not found
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(103): error C2065: 'cerr' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(103): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(116): error C3861: 'CheckGLErrors': identifier not found
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(121): error C2143: syntax error : missing ';' before 'Shader::GetShaderLog'
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(121): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(122): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(123): error C2146: syntax error : missing ';' before identifier 's'
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(123): error C2065: 's' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(127): error C2065: 's' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(127): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(132): error C2065: 's' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(132): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(133): error C2065: 's' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(133): error C2065: 'endl' : undeclared identifier
-     1>c:\users\adam\documents\github\project2\project2\shader.cpp(136): error C2065: 's' : undeclared identifier
-         main.cpp
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C2146: syntax error : missing ';' before identifier 'GetShaderLog'
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\shader.h(27): warning C4183: 'GetShaderLog': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(46): error C2146: syntax error : missing ';' before identifier 'shader'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(46): error C2936: 'std::unique_ptr<_Ty>' : template-class-id redefined as a global data variable
-                 with
-                 [
-                     _Ty=Shader
-                 ]
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(46): error C2440: 'initializing' : cannot convert from 'Shader *' to 'int'
-                 There is no context in which this conversion is possible
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(227): error C2228: left of '.Use' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(228): error C2228: left of '.size_handle' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(229): error C2228: left of '.center_handle_red' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(230): error C2228: left of '.center_handle_green' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(302): error C2228: left of '.TakeDown' must have class/struct/union
-                 type is 'int'
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(335): error C2228: left of '.Initialize' must have class/struct/union
-                 type is 'int'
-         Generating Code...
-     1>Done Building Project "C:\Users\Adam\Documents\GitHub\Project2\Project2\Project2.vcxproj" (build target(s)) -- FAILED.
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+       Manifest:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file "Debug\Project2.unsuccessfulbuild".
+         Touching "Debug\Project2.lastbuildstate".
+     1>Done Building Project "\\wfs1\users$\hart\Desktop\p2\Project2\Project2.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:01.22
+Time Elapsed 00:00:00.46
