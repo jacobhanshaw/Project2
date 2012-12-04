@@ -20,12 +20,33 @@ varying vec2 texcoord;
 
 void main(void)
 {
-	// How do you collapse many of these lines down into single vec manipulation?
 
 	vec2 f = gl_FragCoord.xy / float(framebuffer_size);	
 	vec2 m = mouse_position / float(framebuffer_size);
+	vec2 first = first_mouse_position/ float(framebuffer_size);
 	vec2 texLoc;
-//	float distance = length(f - m);
+	vec2 direction = m - first;
+	float sRad = .1;
+	bool affected = false;
+	
+	for(float i = 0; i <= 1; i = i + .01) {
+		vec2 point = first + direction*i;
+		float distance = abs(length(point - f));
+		if(distance <= sRad) {
+			sRad = distance;
+			affected = true;
+			texLoc = texcoord + direction*(1/(-exp(1000*distance*distance))*i);			
+		} 
+	}
+	if (affected) {
+		fragment_color = texture2D(texture, texLoc);
+	} else { fragment_color = texture2D(texture, texcoord); }
+	
+	
+}
+
+/*
+float distance = length(f - m);
 	float xOfSlope = (mouse_position.x - first_mouse_position.x)/float(framebuffer_size.x);
 	float yOfSlope = (mouse_position.y - first_mouse_position.y)/float(framebuffer_size.y);
 	float scaledX = gl_FragCoord.x/float(framebuffer_size.x);
@@ -37,4 +58,4 @@ void main(void)
 		texLoc.y = texcoord.y - ((.1 - distance)/.1) * ((first_mouse_position.y - mouse_position.y)/float(framebuffer_size.y));
 		fragment_color = texture2D(texture, texLoc);
 	} else { fragment_color = texture2D(texture, texcoord); }
-}
+*/
