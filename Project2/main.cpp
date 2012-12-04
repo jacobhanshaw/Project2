@@ -28,7 +28,7 @@
 	pointer.  &a_vector[0] is equivalent to an_array for this
 	purpose.
 */
-
+#undef _UNICODE
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
@@ -40,13 +40,26 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp> 
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 #include "shader.h"
+
+struct point {
+	int x;
+	int y;
+};
 
 Shader shader = Shader();
 int lastMouseXPosition = -1;
 int lastMouseYPosition = -1;
+glm::vec2 firstMousePos;
 glm::vec2 mousePos;
+point positions[2000];
+int index = 0;
+int window_width = 512;
+int window_height = 512;
 
 
 using namespace std;
@@ -75,191 +88,41 @@ bool CheckGLErrors()
 	return error_found;
 }
 
-// Details of shader use is not commented upon in this program.
 
 
 
 
-class Window
-{
-public:
-	Window(GLsizei w, GLsizei h)
-	{
-		this->handle = (GLuint) -1;
-		this->width = w;
-		this->height = h;
-		this->mode = MODE_MODERN;
-		this->display_list_handle = (GLuint) -1;
-		this->vertex_array_handle = (GLuint) -1;
-		this->vertex_coordinate_handle = (GLuint) - 1;
-	}
-
-	enum Mode
-	{
-		MODE_ORIGINAL,
-		MODE_DISPLAY_LIST,
-		MODE_VERTEX_ARRAY,
-		MODE_MODERN,
-		MODE_END
-	};
-
-	GLuint handle;
-	GLsizei width;
-	GLsizei height;
-	Mode mode;
-
-	// Used with display lists.
-	GLuint display_list_handle;
-
-	// Used with vertex arrays.
-	vector<GLdouble> va_vertices;
-	vector<GLdouble> va_colors;
-	vector<GLuint> va_indices;
-
-	// Used with shaders.
-	vector<glm::vec2> sh_vertices;
-	GLuint vertex_coordinate_handle;
-	GLuint vertex_array_handle;
-
-	void DisplayMode(char * s, bool clear = false);
-
-	void OriginalMode();
-	void DisplayListMode();
-	void VertexArrayMode();
-	void ModernMode();
-};
-
-/*	DisplayMode() is used to (optionally clear the buffer and then)
-	render text indicating which mode the program is in  on-screen.
-	The font engine in  GLUT stroke  fonts.   The function works by 
-	creating an orthographic projection  using screen  units.  This 
-	means,  for  example,  the  call  to  glTranslatef()  specifies 
-	actual screen coordinates.
-
-	The  parameter determining if  the framebuffer is cleared is an
-	optional paramter - if not provided by the caller, the value is
-	false (no screen clearing is done).
-*/
-
-void Window::DisplayMode(char * s, bool clear)
-{
-	if (clear)
-	{
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, this->width, 0, this->height, 1, 10);
-	glViewport(0, 0, this->width, this->height);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(10, 10, -5.5f);
-	glScalef(0.25f, 0.25f, 1.0f);
-	glColor3f(1, 1, 1);
-	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char *) s);
-}
-
-/*	OriginalMode() - draws a triangle using the original method of
-	specifying colors  and vertices within a glBegin() and glEnd()
-	pair.
-*/
-void Window::OriginalMode()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(50, ((double) this->width) / ((double) this->height), 1, 10);
-	glViewport(0, 0, this->width, this->height);
-
-	glClearColor(0, 0, 0.5, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0, 0, -5.5, 0, 0, 0, 0, 1, 0);
-
-	glBegin(GL_TRIANGLES);
-	glColor3d(1, 0, 0);		glVertex2d( 0,  1);
-	glColor3d(0, 1, 0);		glVertex2d(-1, -1);
-	glColor3d(0, 0, 1);		glVertex2d( 1, -1);
-	glEnd();
-
-	this->DisplayMode("Original OpenGL");
-}
-
-
-/*	ModernMode() - This shows how OpenGL no longer uses  the
-	projection and modelview stacks and has no glBegin() and
-	glEnd().
-
-	The gist of  this code is very similar to the vertex ar-
-	ray version.  Here  glDrawArrays  is  being  used  (not 
-	glDrawElements). This means no buffer containing  indic-
-	es is being  specified -  and  if  there were repeating
-	vertices, they would indeed have to be fully repeated.
-
-	A shader  program  is  responsible for  filling in what
-	used to be fixed parts  of  the  graphics pipeline. See
-	the files stub.vert and stub.frag.
-
-*/
-
-void Window::ModernMode()
-{
-	if (this->sh_vertices.size() == 0)
-	{
-		this->sh_vertices.push_back(glm::vec2(-1.0f, -1.0f));
-		this->sh_vertices.push_back(glm::vec2( 1.0f, -1.0f));
-		this->sh_vertices.push_back(glm::vec2( 1.0f,  1.0f));
-		this->sh_vertices.push_back(glm::vec2(-1.0f,  1.0f));
-
-		glGenBuffers(1, &this->vertex_coordinate_handle);
-		assert(this->vertex_coordinate_handle != (GLuint) -1);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vertex_coordinate_handle);
-		glBufferData(GL_ARRAY_BUFFER, this->sh_vertices.size() * sizeof(glm::vec2), &this->sh_vertices[0], GL_STATIC_DRAW);
-
-		glGenVertexArrays(1, &this->vertex_array_handle);
-		glBindVertexArray(this->vertex_array_handle);
-		glEnableVertexAttribArray(0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, this->vertex_coordinate_handle);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLubyte *) NULL);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	shader.Use();
-	glUniform2i(shader.size_handle, this->width, this->height);
-	glUniform2i(shader.center_handle_red, 256, 256);
-	glUniform2i(shader.center_handle_green, 100, 100);	
-	glUniform2i(shader.mouse_position, mousePos.x, this->height-mousePos.y);
-
-	glViewport(0, 0, this->width, this->height);
-
-	glClearColor(0, 0, 0.5, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	assert(this->vertex_array_handle != (GLuint) -1);
-	glBindVertexArray(this->vertex_array_handle);
-	glDrawArrays(GL_QUADS, 0, (GLsizei) this->sh_vertices.size());
-	// Note - the following  could  also be
-	// used in this case:
-	// glDrawElements(GL_TRIANGLES , 3 , GL_UNSIGNED_INT , &this->va_indices[0]);
-	// The benefit to using glDrawElements() 
-	// is  that  repeated vertices  (and at-
-	// tributes)  would  be  indicated only
-	// by repeated indices.
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	this->DisplayMode("Shaders");
-}
-
-Window window(512, 512);
 
 void DisplayFunc()
 {
-	window.ModernMode();
+	glViewport(0, 0, window_width, window_height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-1, 1, -1, 1, 1, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glClearColor(0, 0, 0.5, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	shader.Use();
+	glUniform2i(shader.size_handle, window_width, window_height);
+	glUniform2i(shader.center_handle_red, 256, 256);
+	glUniform2i(shader.center_handle_green, 100, 100);
+	glUniform2i(shader.mouse_position, mousePos.x, window_height-mousePos.y);
+	glUniform2i(shader.last_mouse_position, lastMouseXPosition, window_height-lastMouseYPosition);
+	glUniform2i(shader.first_mouse_position, firstMousePos.x, window_height-firstMousePos.y);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, ilutGLLoadImage("perry-1.jpg"));
+	glUniform1i(shader.texture, 0);
+
+	glBegin(GL_QUADS);
+            glVertex3f  (-1, 1, -2); // Top Left
+            glVertex3f  (-1, -1, -2); // Bottom Left
+            glVertex3f  (1, -1, -2); // Bottom Right
+            glVertex3f  (1, 1, -2); // Top Right
+		glEnd();
+
+	glUseProgram(0);
 	glutSwapBuffers();
 }
 
@@ -267,15 +130,7 @@ void TimerFunc(int period)
 {
 	glutTimerFunc((unsigned int) period, TimerFunc, period);
 
-	// Test the window handle before
-	// calling   glutPostRedisplay()
-	// because  the  window may have
-	// closed while  we were asleep.
-	// Without  this  test, we might
-	// be posting  a message  for a
-	// window that isn't there.
-	if (window.handle != (GLuint) -1)
-		glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 void ReshapeFunc(int w, int h)
@@ -283,8 +138,8 @@ void ReshapeFunc(int w, int h)
 	if (h == 0)
 		return;
 
-	window.width = w;
-	window.height = h;
+	window_width = w;
+	window_height = h;
 }
 
 void SpecialFunc(int c, int x, int y)
@@ -307,19 +162,13 @@ void CloseFunc()
 {
 	shader.TakeDown();
 
-	if (window.display_list_handle != (GLuint) -1)
-		glDeleteLists(window.display_list_handle, 1);
-
-	// This  is  necessary to   prevent one
-	// last execution of the timer function
-	// from calling glutPostRedisplay after
-	// the window has been closed.
-	window.handle = (GLuint) -1;
 }
 
 
 void MouseFunc(int button, int state, int x, int y){
 	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		firstMousePos.x = x;
+		firstMousePos.y = y;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
 		cout << "\nReceived Left Button Down with XPos: ";
@@ -330,6 +179,8 @@ void MouseFunc(int button, int state, int x, int y){
 	else if(button !=GLUT_RIGHT_BUTTON && button != GLUT_MIDDLE_BUTTON) {
 		lastMouseXPosition = -1;
 		lastMouseYPosition = -1;
+		//firstMousePos.x = -1;
+		//firstMousePos.y = -1;
 		cout << "\nReset Mouse Position";
 	}
 	mousePos.x = x;
@@ -337,9 +188,11 @@ void MouseFunc(int button, int state, int x, int y){
 }
 
 void MotionFunc(int x, int y) {
-	if(x > window.width || x < 0 || y > window.height || y < 0){
+	if(x > window_width || x < 0 || y > window_height || y < 0){
 		lastMouseXPosition = -1;
 		lastMouseYPosition = -1;
+	//	firstMousePos.x = -1;
+	//	firstMousePos.y = -1;
 	}
 	if(lastMouseXPosition != -1 && lastMouseYPosition != -1){
 		int differenceX = x - lastMouseXPosition;
@@ -361,11 +214,12 @@ void MotionFunc(int x, int y) {
 
 int main(int argc, char * argv[])
 {
+	
 	glutInit(&argc , argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowPosition(0 , 0);
-	glutInitWindowSize(window.width , window.height);
-	window.handle = glutCreateWindow("Project 2 - Adam Hart and Jacob Hanshaw");
+	glutInitWindowSize(window_width , window_height);
+	glutCreateWindow("Project 2 - Adam Hart and Jacob Hanshaw");
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(1000 / 60, TimerFunc, 1000 / 60);
 	glutReshapeFunc(ReshapeFunc);
@@ -388,7 +242,10 @@ int main(int argc, char * argv[])
 	{
 		return 0;
 	}
-
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
 	glutMainLoop();
 	return 0;
 }

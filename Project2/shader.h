@@ -33,4 +33,7 @@ public:
 	GLuint center_handle_red;
 	GLuint center_handle_green;
 	GLuint mouse_position;
+	GLuint first_mouse_position;
+	GLuint last_mouse_position;
+	GLuint texture;
 };
