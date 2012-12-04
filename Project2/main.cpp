@@ -137,7 +137,6 @@ void ReshapeFunc(int w, int h)
 {
 	if (h == 0)
 		return;
-
 	window_width = w;
 	window_height = h;
 }
