@@ -80,6 +80,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fbo.cpp" />
+    <ClCompile Include="fbomain.cpp" />
+    <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
@@ -88,6 +91,8 @@
     <None Include="stub.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fbo.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

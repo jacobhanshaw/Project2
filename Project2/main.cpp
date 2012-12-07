@@ -1,33 +1,4 @@
-/*	THIS IS A MODIFIED VERSION TO PERMIT ON-THE-FLY DURING CLASS MODIFICATION TO DEMO SHADERS FOR PROJECT TWO.
 
-*/
-
-
-/*	Samples from four  different epochs in OpenGL development
-	in the same program. 
-
-	Perry Kivolowitz
-	Computer Sciences Department - University of Wisconsin.
-
-	The OpenGL "hello world" of drawing a colored triangle is
-	presented using:
-	o The  original  means of  immediate mode  glBegin()  and 
-	  glEnd().
-	o The original means plugged into a display list.
-	o Vertex arrays.
-	o Shaders.
-
-	x or ESC exits the program.
-	F1 advances from mode to mode - showing the same triangle.
-
-	Why the "this" pointer is used where it is not needed: To
-	assist code completion in IDE's. 
-
-	Tip: Use of vectors  (gaining the  benefit of their auto-
-	matic  destruction)  where OpenGL  is  expecting an array 
-	pointer.  &a_vector[0] is equivalent to an_array for this
-	purpose.
-*/
 #undef _UNICODE
 #include <stdio.h>
 #include <iostream>
@@ -43,6 +14,9 @@
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <IL/ilut.h>
+#include <assert.h>
+#include "globals.h"
+#include "fbo.h"
 
 #include "shader.h"
 
@@ -60,23 +34,11 @@ point positions[2000];
 int index = 0;
 int window_width = 512;
 int window_height = 512;
-
+FrameBufferObject fbo;
 
 using namespace std;
 
-/*	This CheckGLErrors() is a stub. In your code, you ought to provide
-	a means of reporting the exact value of  each OpenGL  error found. 
-	The glu library  provides  a function  which converts GLenum error
-	codes into strings (for most but not all OpenGL errors). 
 
-	Notice how glGetError() needs to be called  within a loop. This is
-	because OpenGL stores up a bit vector  of errors.  Each time error
-	status is requested using glGetError,  one of the set bits is pro-
-	cessed (and the appropriate GLenum is returned). When the error is
-	returned to the caller, the bit is turned off. Continuing  to call
-	glGetError()  until it  returns  GL_NO_ERROR  clears  all  current 
-	error bits.
-*/
 
 bool CheckGLErrors()
 {
@@ -91,18 +53,84 @@ bool CheckGLErrors()
 
 
 
+void RenderIntoFrameBuffer()
+{
+
+
+float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
+
+	fbo.Bind();
+	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushAttrib(GL_VIEWPORT_BIT | GL_TRANSFORM_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 1, 10);
+	glViewport(0, 0, fbo.size.x, fbo.size.y);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
+	glRotatef(-time * 60.0f, 1.0f, 1.0f, 0.0f);
+	glBegin(GL_TRIANGLES);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex2f(0.0f, 0.5f);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glVertex2f(-0.5f, -0.5f);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex2f(0.5f, -0.5f);
+	glEnd();
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glPopAttrib();
+	fbo.Unbind();
+}
 
 
 void DisplayFunc()
 {
+	glEnable(GL_DEPTH_TEST);
+	RenderIntoFrameBuffer();
+	float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
+
+	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(15, double(window_width) / double(window_height), 1, 10);
+	glViewport(0, 0, window_width, window_height);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
+	glRotatef(time * 30.0f, 0.0f, 1.0f, 0.0f);
+	glRotatef(-30, 1.0f, 0.0f, 0.0f);
+	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2f(-0.5f, -0.5f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2f(0.5f, -0.5f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2f(0.5f, 0.5f);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2f(-0.5f, 0.5f);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
+	/*
+	glClearColor(0, 0, 0.5, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window_width, window_height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1, 1, -1, 1, 1, 10);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glClearColor(0, 0, 0.5, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	
 	
 	shader.Use();
 	glUniform2i(shader.size_handle, window_width, window_height);
@@ -112,7 +140,7 @@ void DisplayFunc()
 	glUniform2i(shader.last_mouse_position, lastMouseXPosition, window_height-lastMouseYPosition);
 	glUniform2i(shader.first_mouse_position, firstMousePos.x, window_height-firstMousePos.y);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ilutGLLoadImage("perry-1.jpg"));
+	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
 	glUniform1i(shader.texture, 0);
 
 	glBegin(GL_QUADS);
@@ -120,9 +148,13 @@ void DisplayFunc()
             glVertex3f  (-1, -1, -2); // Bottom Left
             glVertex3f  (1, -1, -2); // Bottom Right
             glVertex3f  (1, 1, -2); // Top Right
-		glEnd();
+	glEnd();
+
+
 
 	glUseProgram(0);
+
+	*/
 	glutSwapBuffers();
 }
 
@@ -217,8 +249,9 @@ int main(int argc, char * argv[])
 	glutInit(&argc , argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowPosition(0 , 0);
-	glutInitWindowSize(window_width , window_height);
+	glutInitWindowSize(512 , 512);
 	glutCreateWindow("Project 2 - Adam Hart and Jacob Hanshaw");
+	
 	glutDisplayFunc(DisplayFunc);
 	glutTimerFunc(1000 / 60, TimerFunc, 1000 / 60);
 	glutReshapeFunc(ReshapeFunc);
@@ -230,13 +263,16 @@ int main(int argc, char * argv[])
 	glutMouseFunc(MouseFunc);
 	glutMotionFunc(MotionFunc);
 
-
 	if (glewInit() != GLEW_OK)
 	{
 		cerr << "GLEW failed to initialize." << endl;
 		return 0;
 	}
-
+	if (!fbo.Initialize(glm::ivec2(512, 512), 1, true))
+	{
+		cerr << "Frame buffer failed to initialize." << endl;
+		return 0;
+	}
 	if (!shader.Initialize("stub.vert", "stub.frag"))
 	{
 		return 0;
