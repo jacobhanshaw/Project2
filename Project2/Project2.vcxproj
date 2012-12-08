@@ -84,6 +84,8 @@
     <ClCompile Include="fbomain.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Museum.cpp" />
+    <ClCompile Include="planar_mesh.cpp" />
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +95,8 @@
   <ItemGroup>
     <ClInclude Include="fbo.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="Museum.h" />
+    <ClInclude Include="planar_mesh.h" />
     <ClInclude Include="shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

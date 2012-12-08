@@ -18,6 +18,9 @@
 #include "globals.h"
 #include "fbo.h"
 
+//#include "planar_mesh.h"
+#include "Museum.h"
+
 #include "shader.h"
 
 struct point {
@@ -35,6 +38,7 @@ int index = 0;
 int window_width = 512;
 int window_height = 512;
 FrameBufferObject fbo;
+Museum *testMonkey;
 
 using namespace std;
 
@@ -80,7 +84,7 @@ float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 	glVertex2f(-0.5f, -0.5f);
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glVertex2f(0.5f, -0.5f);
-	glEnd();
+	glEnd(); 
 	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
@@ -109,6 +113,7 @@ void DisplayFunc()
 	glRotatef(-30, 1.0f, 0.0f, 0.0f);
 	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
 	glEnable(GL_TEXTURE_2D);
+	/*
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex2f(-0.5f, -0.5f);
@@ -119,6 +124,8 @@ void DisplayFunc()
 	glTexCoord2f(0.0f, 1.0f);
 	glVertex2f(-0.5f, 0.5f);
 	glEnd();
+	*/
+	glDrawElements(GL_TRIANGLES , testMonkey->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , testMonkey->wallA->GetTriangleIndexArray());
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 	/*

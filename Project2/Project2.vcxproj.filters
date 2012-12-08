@@ -30,6 +30,12 @@
     <ClCompile Include="fbomain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="planar_mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Museum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="stub.frag">
@@ -40,14 +46,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shader.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fbo.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="globals.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="planar_mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Museum.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
