@@ -1,0 +1,41 @@
+﻿Build started 12/7/2012 2:33:59 PM.
+     1>Project "\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\GraphicsMuseum\GraphicsMuseum.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\GraphicsMuseum.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\DevIL-1.7.8\include" /I"C:\Program Files (x86)\glew-1.7.0\include" /I"C:\Program Files (x86)\FreeGLUT\include\\" /I"C:\Program Files (x86)\glm-0.9.3.4" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+       ManifestResourceCompile:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GraphicsMuseum.exe.embed.manifest.res" Debug\GraphicsMuseum_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\DevIL-1.7.8\lib" /LIBPATH:"C:\Program Files (x86)\glew-1.7.0\lib" /LIBPATH:"C:\Program Files (x86)\FreeGLUT\lib" freeglut.lib glew32.lib glew32mx.lib glew32mxs.lib glew32s.lib DevIL.lib ILU.lib ILUT.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GraphicsMuseum.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.lib" /MACHINE:X86 Debug\GraphicsMuseum.exe.embed.manifest.res
+         Debug\GlobalObject.obj
+         Debug\high_resolution_timer.obj
+         Debug\ilcontainer.obj
+         Debug\main.obj
+         Debug\main_window.obj
+         Debug\Picture.obj
+         Debug\planar_mesh.obj
+         Debug\shader.obj
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\GraphicsMuseum.exe.embed.manifest" /manifest Debug\GraphicsMuseum.exe.intermediate.manifest
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GraphicsMuseum.exe.embed.manifest.res" Debug\GraphicsMuseum_manifest.rc 
+       LinkEmbedManifest:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\DevIL-1.7.8\lib" /LIBPATH:"C:\Program Files (x86)\glew-1.7.0\lib" /LIBPATH:"C:\Program Files (x86)\FreeGLUT\lib" freeglut.lib glew32.lib glew32mx.lib glew32mxs.lib glew32s.lib DevIL.lib ILU.lib ILUT.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GraphicsMuseum.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.lib" /MACHINE:X86 Debug\GraphicsMuseum.exe.embed.manifest.res
+         Debug\GlobalObject.obj
+         Debug\high_resolution_timer.obj
+         Debug\ilcontainer.obj
+         Debug\main.obj
+         Debug\main_window.obj
+         Debug\Picture.obj
+         Debug\planar_mesh.obj
+         Debug\shader.obj
+         GraphicsMuseum.vcxproj -> \\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\Debug\GraphicsMuseum.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\GraphicsMuseum.unsuccessfulbuild".
+         Touching "Debug\GraphicsMuseum.lastbuildstate".
+     1>Done Building Project "\\wfs1\users$\hanshaw\Desktop\GraphicsMuseum\GraphicsMuseum\GraphicsMuseum.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.11
