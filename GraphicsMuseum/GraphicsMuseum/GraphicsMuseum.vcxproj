@@ -81,6 +81,7 @@
     <ClInclude Include="high_resolution_timer.h" />
     <ClInclude Include="ilcontainer.h" />
     <ClInclude Include="main_window.h" />
+    <ClInclude Include="Museum.h" />
     <ClInclude Include="Picture.h" />
     <ClInclude Include="planar_mesh.h" />
     <ClInclude Include="shader.h" />
@@ -93,6 +94,7 @@
     <ClCompile Include="ilcontainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_window.cpp" />
+    <ClCompile Include="Museum.cpp" />
     <ClCompile Include="Picture.cpp" />
     <ClCompile Include="planar_mesh.cpp" />
     <ClCompile Include="shader.cpp" />

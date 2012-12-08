@@ -3,6 +3,7 @@
 #include "window.h"
 #include "planar_mesh.h"
 #include "shader.h"
+#include "Museum.h"
 
 struct MainWindowStruct
 {
@@ -47,6 +48,7 @@ public:
 	void DrawSkybox();
 
 	PlanarMesh * planar_mesh;
+	Museum * testMonkey;
 	ADSShader fragment_shader;
 	ADSShader vertex_shader;
 	ADSShader * shader;

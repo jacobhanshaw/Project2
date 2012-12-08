@@ -56,6 +56,9 @@ void MainWindow::DisplayFunc()
 	glBindVertexArray(this->vertex_array_handle);
 	glDrawElements(GL_TRIANGLES , this->planar_mesh->GetNumberOfElements(), GL_UNSIGNED_INT , this->planar_mesh->GetTriangleIndexArray());
 
+	//glDrawElements(GL_TRIANGLES , testMonkey->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , testMonkey->wallA->GetTriangleIndexArray());
+
+
 	glUniform1i(shader->do_normal_mapping_handle, (GLint) 0);
 
 	/* This endcap code is an afterthought and not well considered.
