@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gl/glew.h>
 #include <stdio.h>
 #include <vector>
 #include <assert.h>
@@ -7,6 +8,7 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 
+#include "ilcontainer.h"
 #include "planar_mesh.h"
 
 using namespace std;
@@ -17,11 +19,14 @@ class Museum {
 
 public:
 
-	PlanarMesh *wallA;
+	//PlanarMesh *wallA;
+
+	ILContainer wallB;
 
 	Museum();
 
 	void render();
+	void DrawWall();
 
 private:
 

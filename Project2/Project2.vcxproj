@@ -51,6 +51,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files %28x86%29\freeglut\include;C:\Program Files %28x86%29\glew\include;C:\Program Files %28x86%29\glm-0.9.3.4;C:\Program Files %28x86%29\DevIL-1.7.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,6 +84,7 @@
     <ClCompile Include="fbo.cpp" />
     <ClCompile Include="fbomain.cpp" />
     <ClCompile Include="globals.cpp" />
+    <ClCompile Include="ilcontainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Museum.cpp" />
     <ClCompile Include="planar_mesh.cpp" />
@@ -95,9 +97,11 @@
   <ItemGroup>
     <ClInclude Include="fbo.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="ilcontainer.h" />
     <ClInclude Include="Museum.h" />
     <ClInclude Include="planar_mesh.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

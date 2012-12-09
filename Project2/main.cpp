@@ -1,12 +1,12 @@
 
 #undef _UNICODE
+#include <gl/glew.h>
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <assert.h>
 
-#include <gl/glew.h>
 #include <gl/freeglut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,24 +38,26 @@ int index = 0;
 int window_width = 512;
 int window_height = 512;
 FrameBufferObject fbo;
-Museum *testMonkey;
+Museum *testMonkey = new Museum();
 
 using namespace std;
 
 
-
-bool CheckGLErrors()
-{
+//function used in debugging to check for GL errors
+// prints any error to the console if one is found
+bool CheckGLErrors(string location) {
 	bool error_found = false;
-	while (glGetError() != GL_NO_ERROR)
-	{
+	GLenum error;
+	const GLubyte *errorString;
+	while ((error = glGetError()) != GL_NO_ERROR) {
+		cout <<"\n";
+		cout <<location;
 		error_found = true;
+		errorString = gluErrorString(error);
+		cout << errorString;
 	}
 	return error_found;
 }
-
-
-
 
 void RenderIntoFrameBuffer()
 {
@@ -95,17 +97,27 @@ float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 
 void DisplayFunc()
 {
-	glEnable(GL_DEPTH_TEST);
-	RenderIntoFrameBuffer();
-	float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
-
-	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+	glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, window_width, window_height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(15, double(window_width) / double(window_height), 1, 10);
+	gluPerspective(40.0, double(window_width) / double(window_height), 1, 10);
 	glViewport(0, 0, window_width, window_height);
+	glMatrixMode(GL_MODELVIEW);
+
+	testMonkey->render();
+
+//	glEnable(GL_DEPTH_TEST);
+//	RenderIntoFrameBuffer();
+	float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
+
+	/*
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(15, double(window_width) / double(window_height), 1, 10);
+	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
@@ -113,7 +125,7 @@ void DisplayFunc()
 	glRotatef(-30, 1.0f, 0.0f, 0.0f);
 	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
 	glEnable(GL_TEXTURE_2D);
-	/*
+	
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex2f(-0.5f, -0.5f);
@@ -125,9 +137,9 @@ void DisplayFunc()
 	glVertex2f(-0.5f, 0.5f);
 	glEnd();
 	*/
-	glDrawElements(GL_TRIANGLES , testMonkey->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , testMonkey->wallA->GetTriangleIndexArray());
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
+	//glDrawElements(GL_TRIANGLES , testMonkey->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , testMonkey->wallA->GetTriangleIndexArray());
+//	glBindTexture(GL_TEXTURE_2D, 0);
+	//glDisable(GL_TEXTURE_2D);
 	/*
 	glClearColor(0, 0, 0.5, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -174,7 +186,7 @@ void TimerFunc(int period)
 
 void ReshapeFunc(int w, int h)
 {
-	if (h == 0)
+	if (h == 0 || w == 0)
 		return;
 	window_width = w;
 	window_height = h;
@@ -191,6 +203,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	{
 	case 27:
 	case 'x':
+	case 'X':
 		glutLeaveMainLoop();
 		return;
 	}
@@ -205,8 +218,8 @@ void CloseFunc()
 
 void MouseFunc(int button, int state, int x, int y){
 	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		firstMousePos.x = x;
-		firstMousePos.y = y;
+		firstMousePos.x = (float)x;
+		firstMousePos.y = (float)y;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
 		cout << "\nReceived Left Button Down with XPos: ";
@@ -221,8 +234,8 @@ void MouseFunc(int button, int state, int x, int y){
 		//firstMousePos.y = -1;
 		cout << "\nReset Mouse Position";
 	}
-	mousePos.x = x;
-	mousePos.y = y;
+	mousePos.x = (float)x;
+	mousePos.y = (float)y;
 }
 
 void MotionFunc(int x, int y) {
@@ -246,8 +259,8 @@ void MotionFunc(int x, int y) {
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
 	}
-	mousePos.x = x;
-	mousePos.y = y;
+	mousePos.x = (float)x;
+	mousePos.y = (float)y;
 }
 
 int main(int argc, char * argv[])
@@ -280,6 +293,7 @@ int main(int argc, char * argv[])
 		cerr << "Frame buffer failed to initialize." << endl;
 		return 0;
 	}
+
 	if (!shader.Initialize("stub.vert", "stub.frag"))
 	{
 		return 0;
@@ -288,6 +302,12 @@ int main(int argc, char * argv[])
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
+
+	if (testMonkey->wallB.Initialize("Art_Museum_Wall.jpg") == false)
+	{
+		cerr << "Failed to load sky box texture." << endl;
+	}
+
 	glutMainLoop();
 	return 0;
 }

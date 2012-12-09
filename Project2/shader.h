@@ -1,12 +1,12 @@
 #pragma once
 
+#include <gl/glew.h>
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <assert.h>
 
-#include <gl/glew.h>
 #include <gl/freeglut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
