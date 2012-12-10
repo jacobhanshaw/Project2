@@ -26,6 +26,7 @@ public:
 	PlanarMesh(int xDensity, int yDensity, bool open = false, MeshStyle meshStyle = Regular);
 	~PlanarMesh();
 	void Draw(WhichArray whichArray = InArray, bool drawNormals = false);
+	void ApplyCustomization(float (* function)(float));
 	void ResizeMesh(int xDensity, int yDensity, MeshStyle meshStyle = Regular);
 	void GetDensity(int & x, int & y);
 

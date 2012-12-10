@@ -21,12 +21,14 @@ public:
 
 	//PlanarMesh *wallA;
 
-	ILContainer wallB;
+	ILContainer ceiling;
+	ILContainer wall;
+	ILContainer floor;
 
 	Museum();
 
 	void render();
-	void DrawWall();
+	void MakeTextureQuad();
 
 private:
 

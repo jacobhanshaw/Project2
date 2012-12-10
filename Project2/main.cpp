@@ -18,10 +18,13 @@
 #include "globals.h"
 #include "fbo.h"
 
-//#include "planar_mesh.h"
+#include "planar_mesh.h"
+#include "ilcontainer.h"
 #include "Museum.h"
 
 #include "shader.h"
+
+#define PI 3.14159265
 
 struct point {
 	int x;
@@ -34,11 +37,19 @@ int lastMouseYPosition = -1;
 glm::vec2 firstMousePos;
 glm::vec2 mousePos;
 point positions[2000];
+bool isWireFrame = false;
+bool isFullScreen = false;
 int index = 0;
 int window_width = 512;
 int window_height = 512;
+int original_window_width = 512;
+int original_window_height = 512;
 FrameBufferObject fbo;
-Museum *testMonkey = new Museum();
+Museum *graphicsMuseum = new Museum();
+PlanarMesh *chandelierOuter = new PlanarMesh(100, 100, true);
+PlanarMesh *chandelierLight = new PlanarMesh(100, 100, true);
+ILContainer chandelierOuterTexture;
+ILContainer chandelierLightTexture;
 
 using namespace std;
 
@@ -94,6 +105,20 @@ float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 	fbo.Unbind();
 }
 
+float chandelier(float input) {
+	double result;
+	//if(input < .25) result = sin((input/.25 + .25) * 180);
+//	else if (input < .5) result = 1 - sin((input/.5) * 180);
+	//if(input < .75) result = 0.5 - sin((input/.75) * 180);
+//	else 
+	result = 4 * sin(input + .25 * 180);
+	return (float)result;
+}
+
+float sphere(float input) {
+	input = input - 0.5f;
+	return sqrt(0.25f - input * input);
+}
 
 void DisplayFunc()
 {
@@ -103,11 +128,22 @@ void DisplayFunc()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(40.0, double(window_width) / double(window_height), 1, 10);
-	glViewport(0, 0, window_width, window_height);
+	gluPerspective(40.0, double(window_width) / double(window_height), 1, 50);
 	glMatrixMode(GL_MODELVIEW);
 
-	testMonkey->render();
+	graphicsMuseum->render();
+
+	glEnable(GL_DEPTH_TEST);
+
+	glPushMatrix();
+	glTranslated(0,2,-3);
+	glScalef(0.35f,0.35f,0.35f);
+//	glBindVertexArray(0);
+	chandelierOuterTexture.Bind();
+	chandelierOuter->Draw(PlanarMesh::WhichArray::OutArray);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
 
 //	glEnable(GL_DEPTH_TEST);
 //	RenderIntoFrameBuffer();
@@ -137,7 +173,7 @@ void DisplayFunc()
 	glVertex2f(-0.5f, 0.5f);
 	glEnd();
 	*/
-	//glDrawElements(GL_TRIANGLES , testMonkey->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , testMonkey->wallA->GetTriangleIndexArray());
+	//glDrawElements(GL_TRIANGLES , graphicsMuseum->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , graphicsMuseum->wallA->GetTriangleIndexArray());
 //	glBindTexture(GL_TEXTURE_2D, 0);
 	//glDisable(GL_TEXTURE_2D);
 	/*
@@ -190,6 +226,10 @@ void ReshapeFunc(int w, int h)
 		return;
 	window_width = w;
 	window_height = h;
+	if(!isFullScreen){
+		original_window_width = w;
+		original_window_height = h;
+	}
 }
 
 void SpecialFunc(int c, int x, int y)
@@ -206,6 +246,21 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	case 'X':
 		glutLeaveMainLoop();
 		return;
+
+	case 'F':
+	case 'f':
+		if (!isFullScreen) glutFullScreen();
+		else glutReshapeWindow(original_window_width, original_window_height);
+		isFullScreen = !isFullScreen;
+		break;
+		
+	case 'W':
+	case 'w':
+		if (!isWireFrame) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		isWireFrame = !isWireFrame;
+		break;
+
 	}
 }
 
@@ -267,6 +322,16 @@ int main(int argc, char * argv[])
 {
 	
 	glutInit(&argc , argv);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE , 1.0);
+
+	//////set up light position
+	GLfloat light_position[] = { 0, 2, -3, 0 };
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowPosition(0 , 0);
 	glutInitWindowSize(512 , 512);
@@ -303,11 +368,33 @@ int main(int argc, char * argv[])
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	if (testMonkey->wallB.Initialize("Art_Museum_Wall.jpg") == false)
+	if (graphicsMuseum->ceiling.Initialize("Art_Museum_Ceiling.jpg") == false)
 	{
-		cerr << "Failed to load sky box texture." << endl;
+		cerr << "Failed to load Art Museum Ceiling texture." << endl;
 	}
 
+	if (graphicsMuseum->wall.Initialize("Art_Museum_Wall.jpg") == false)
+	{
+		cerr << "Failed to load Art Museum Wall texture." << endl;
+	}
+
+	if (graphicsMuseum->floor.Initialize("Art_Museum_Floor.jpg") == false)
+	{
+		cerr << "Failed to load Art Museum Floor texture." << endl;
+	}
+
+	if (chandelierOuterTexture.Initialize("shark_white.jpg") == false)
+	{
+		cerr << "Failed to load Chandelier Outer texture." << endl;
+	}
+
+	if (chandelierLightTexture.Initialize("blue_glass_texture.jpg") == false)
+	{
+		cerr << "Failed to load Chandelier Light texture." << endl;
+	}
+
+	chandelierOuter->ApplyCustomization(chandelier);
+	chandelierLight->ApplyCustomization(sphere);
 	glutMainLoop();
 	return 0;
 }

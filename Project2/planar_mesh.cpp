@@ -313,3 +313,84 @@ glm::uvec3 * PlanarMesh::GetTriangleIndexArray()
 	return &TArray[0];
 }
 
+void PlanarMesh::ApplyCustomization(float (* function)(float))
+{
+	float tr =  360.0f / ((float) this->xDensity - 1);
+
+	glm::vec4 p;
+	glm::vec4 q;
+
+	int y_start = 0;
+	int y_end = this->yDensity;
+
+	for (int y = y_start; y < y_end; ++y)
+	{
+		glm::mat4 m(1.0f);
+		glm::vec3 * outPointer = (this->GetOutArray() + this->xDensity * y);
+		p = glm::vec4((*function)(((float) y - y_start) / ((float) y_end - 1)), ((float) y - y_start) / ((float) y_end - 1) - 0.5f, 0.0f, 0.0f);
+		for (int x = 0; x < this->xDensity; ++x)
+		{
+			q = m * p;
+			*(outPointer++) = glm::vec3(q.x, q.y, q.z);
+			m = glm::rotate(m, tr, glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+
+	// Make normals
+	int left = -1;
+	int right;
+	int up = this->xDensity;
+	int down = -this->xDensity;
+
+	float top_radius = (*function)(0.0f);
+	float bot_radius = (*function)(1.0f);
+
+	for (int y = 0; y < this->yDensity; y++)
+	{
+		glm::vec3 * outVertexPointer = (this->GetOutArray() + this->xDensity * y + 1);
+		glm::vec3 * outNormalPointer = (this->GetOutNormals() + this->xDensity * y + 1);
+		glm::vec3 * firstNormalPointer = (this->GetOutNormals() + this->xDensity * y);
+
+		for (int x = 1; x < this->xDensity; x++)
+		{
+			right = (x < this->xDensity - 1) ? 1 : -(this->xDensity - 2);
+
+			glm::vec3 normal(0.0f);
+
+			if (y == 0 && top_radius == 0.0f)
+				normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			else if (y == this->yDensity - 1 && bot_radius == 0.0f)
+				normal = glm::vec3(0.0f, -1.0f, 0.0f);
+			else
+			{
+				// Row above
+				if (y < this->yDensity - 1)
+				{
+					if (y > 0)
+						normal += glm::cross(glm::normalize(*(outVertexPointer + left) - *outVertexPointer) , glm::normalize(*(outVertexPointer + left + up) - *outVertexPointer));
+					normal += glm::cross(glm::normalize(*(outVertexPointer + left + up) - *outVertexPointer) , glm::normalize(*(outVertexPointer + up) - *outVertexPointer));
+					normal += glm::cross(glm::normalize(*(outVertexPointer + up) - *outVertexPointer) , glm::normalize(*(outVertexPointer + right) - *outVertexPointer));
+				}
+				if (y > 0)
+				{
+					normal += glm::cross(glm::normalize(*(outVertexPointer + down) - *outVertexPointer) , glm::normalize(*(outVertexPointer + left) - *outVertexPointer));
+					normal += glm::cross(glm::normalize(*(outVertexPointer + down + right) - *outVertexPointer) , glm::normalize(*(outVertexPointer + down) - *outVertexPointer));
+					if (y < this->yDensity - 1)
+						normal += glm::cross(glm::normalize(*(outVertexPointer + right) - *outVertexPointer) , glm::normalize(*(outVertexPointer + down + right) - *outVertexPointer));
+				}
+			}
+
+			normal = glm::normalize(normal);
+
+			if (x == this->xDensity - 1)
+			{
+				*firstNormalPointer = -normal;
+			}
+
+			*outNormalPointer = -normal;
+			outNormalPointer++;
+			outVertexPointer++;
+		}
+	}
+}
+
