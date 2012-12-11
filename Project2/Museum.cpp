@@ -9,8 +9,8 @@ void Museum::render() {
 //	GLboolean lightingState = glIsEnabled(GL_LIGHTING);
 //	glDisable(GL_LIGHTING);
 
-	GLboolean depthTestState = glIsEnabled(GL_DEPTH_TEST);
-	glDisable(GL_DEPTH_TEST);
+//	GLboolean depthTestState = glIsEnabled(GL_DEPTH_TEST);
+//	glDisable(GL_DEPTH_TEST);
 
 	GLboolean texture2DState = glIsEnabled(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
@@ -49,7 +49,7 @@ void Museum::render() {
 	glPopMatrix();
 
 //	if(lightingState) glEnable(GL_LIGHTING);
-	if(depthTestState) glEnable(GL_DEPTH_TEST);
+//	if(depthTestState) glEnable(GL_DEPTH_TEST);
 	if(!texture2DState) glDisable(GL_TEXTURE_2D);
 } 
 

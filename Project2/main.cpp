@@ -47,8 +47,8 @@ int original_window_width = 512;
 int original_window_height = 512;
 FrameBufferObject fbo;
 Museum *graphicsMuseum = new Museum();
-PlanarMesh *chandelierOuter = new PlanarMesh(100, 100, true);
-PlanarMesh *chandelierLight = new PlanarMesh(100, 100, true);
+PlanarMesh *chandelierOuter = new PlanarMesh(50, 50, true);
+PlanarMesh *chandelierLight = new PlanarMesh(50, 50, true);
 ILContainer chandelierOuterTexture;
 ILContainer chandelierLightTexture;
 
@@ -137,6 +137,7 @@ float sphere(float input) {
 
 void DisplayFunc()
 {
+	CheckGLErrors("Start Display: ");
 	glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window_width, window_height);
@@ -146,17 +147,15 @@ void DisplayFunc()
 	gluPerspective(40.0, double(window_width) / double(window_height), 1, 50);
 	camera();
 	glMatrixMode(GL_MODELVIEW);
-
-	gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
-
-	graphicsMuseum->render();
+	//gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
 
 	glEnable(GL_DEPTH_TEST);
 
-	glPushMatrix();
-	glTranslated(0,2,-3);
+	graphicsMuseum->render();
+	
+	glLoadIdentity();
+	glTranslated(0,1.75,-5.5);
 	glScalef(0.35f,0.35f,0.35f);
-//	glBindVertexArray(0);
 	chandelierOuterTexture.Bind();
 	chandelierOuter->Draw(PlanarMesh::WhichArray::OutArray);
 	glScalef(2.0f,2.0f,2.0f);
@@ -229,6 +228,7 @@ void DisplayFunc()
 
 	*/
 	glutSwapBuffers();
+	CheckGLErrors("End Display: ");
 }
 
 void TimerFunc(int period)
@@ -256,7 +256,6 @@ void SpecialFunc(int c, int x, int y)
 	case GLUT_KEY_LEFT:
 		if (yrot == 0 || yrot == 360) yrot = 359; 
 		else yrot--;
-		cout << "Current Y Rot = " << yrot;
 		break;
 
 	case GLUT_KEY_RIGHT: 
@@ -300,6 +299,11 @@ void KeyboardFunc(unsigned char c, int x, int y)
 		if (!isWireFrame) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		isWireFrame = !isWireFrame;
+		break;
+	
+	case 'E':
+	case 'e':
+		controlModeIsOneHanded = !controlModeIsOneHanded;
 		break;
 
 	case 'W':
@@ -350,6 +354,29 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			if (yrot == 0 || yrot == 360) yrot = 359;
 			else yrot--;
 		}
+		else{
+			float yrotOriginal = yrot;
+			yrot -= 90;
+			if(yrot < 0) yrot += 360;
+			if(yrot >= 0 && yrot <= 90){
+			xpos += yrot/90;
+			zpos -= 1 - yrot/90;
+		}
+		else if(yrot <= 180){
+			xpos += 1 - (yrot -90)/90;
+			zpos += (yrot -90)/90;
+		}
+		else if(yrot <= 270){
+			xpos -= (yrot - 180)/90;
+			zpos += 1 - (yrot - 180)/90;
+		}
+		else if(yrot <= 360){
+			xpos -= 1 - (yrot - 270)/90;
+			zpos -= (yrot - 270)/90;
+		}
+		else cout << "yRotation reached what should be an unreachable state";
+			yrot = yrotOriginal;
+		}
 		break;
 
 	case 'D':
@@ -357,6 +384,29 @@ void KeyboardFunc(unsigned char c, int x, int y)
 		if(controlModeIsOneHanded){
 			if (yrot == 0 || yrot == 360) yrot = 1;
 			else yrot++;
+		}
+		else{
+			float yrotOriginal = yrot;
+			yrot += 90;
+			if(yrot > 360) yrot -= 360;
+			if(yrot >= 0 && yrot <= 90){
+			xpos += yrot/90;
+			zpos -= 1 - yrot/90;
+		}
+		else if(yrot <= 180){
+			xpos += 1 - (yrot -90)/90;
+			zpos += (yrot -90)/90;
+		}
+		else if(yrot <= 270){
+			xpos -= (yrot - 180)/90;
+			zpos += 1 - (yrot - 180)/90;
+		}
+		else if(yrot <= 360){
+			xpos -= 1 - (yrot - 270)/90;
+			zpos -= (yrot - 270)/90;
+		}
+		else cout << "yRotation reached what should be an unreachable state";
+		yrot = yrotOriginal;
 		}
 		break;
 
