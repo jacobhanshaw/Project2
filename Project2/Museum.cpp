@@ -16,37 +16,288 @@ void Museum::render() {
 	glEnable(GL_TEXTURE_2D);
 
 	glLoadIdentity();
-	glScalef(2.0f, 2.0f, 2.0f);
-	glTranslatef(0.0f, 0.0f, -2.75f);
+
+	glScalef(4.0f, 2.0f, 2.0f);
 
 	glPushMatrix();
+	glTranslatef(-3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
 	MakeTextureQuad();
 	glPopMatrix();
 
 	glPushMatrix();
-	glRotated(90, 0 , 1, 0);
+	glTranslatef(3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
 	MakeTextureQuad();
 	glPopMatrix();
-		
+
 	glPushMatrix();
-	glRotated(-90, 0 , 1, 0);
+	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
+	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad();
 	glPopMatrix();
 
 	glPushMatrix();
-	glRotated(-90, 1, 0, 0);
-	this->floor.Bind();
+	glTranslatef(8.0f, 0.0f, -9.0f);
+	this->wall.Bind();
+	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad();
 	glPopMatrix();
 
 	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -150.0f);
+	this->wall.Bind();
+	glScalef(50.0f, 50.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+	//Back begin
+
+	glPushMatrix();
+	glRotated(-180, 0, 1, 0);
+	glPushMatrix();
+	glTranslatef(-4.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(4.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-8.0f, 0.0f, -9.0f);
+	this->wall.Bind();
+	glScalef(3.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(8.0f, 0.0f, -9.0f);
+	this->wall.Bind();
+	glScalef(3.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2.0f, 0.0f, -7.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2.0f, 0.0f, -7.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -15.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPopMatrix();
+	//back end
+
+	glPushMatrix();
+
+	glRotated(-90, 0, 1, 0);
+
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -11.0f);
+	this->wall.Bind();
+	glScalef(9.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(7.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-7.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(6.0f, 0.0f, -3.0f); //EDITED THIS ONE
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+	
+	glPushMatrix();
+	glTranslatef(11.0f, 0.0f, -1.0f); //EDITED THIS ONE
+	this->wall.Bind();
+	glScalef(4.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+	
+	glPopMatrix();
+
+	glPushMatrix();
+
+	glRotated(90, 0, 1, 0);
+
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -11.0f);
+	this->wall.Bind();
+	glScalef(9.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(7.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-7.0f, 0.0f, -5.0f);
+	this->wall.Bind();
+	glScalef(2.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-6.0f, 0.0f, -3.0f);
+	this->wall.Bind();
+	glScalef(1.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	
+	glPushMatrix();
+	glTranslatef(-11.0f, 0.0f, -1.0f);
+	this->wall.Bind();
+	glScalef(4.0f, 2.5f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+	
+
+	glPopMatrix();
+
+	//floor start
+
+	glPushMatrix();
+
 	glRotated(90, 1, 0, 0);
-	this->ceiling.Bind();
+
+	glPushMatrix();
+	glTranslatef(0.0f, -30.0f, 2.5f);
+	this->floor.Bind();
+	glScalef(2.0f, 25.0f, 1.0f);
 	MakeTextureQuad();
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0f, 5.0f, 2.5f);
+	this->floor.Bind();
+	glScalef(5.0f, 10.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(8.0f, 0.0f, 2.5f);
+	this->floor.Bind();
+	glScalef(3.0f, 9.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-8.0f, 0.0f, 2.5f);
+	this->floor.Bind();
+	glScalef(3.0f, 9.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPopMatrix();
+
+	//floor end
+	//ceiling start
+	
+	glPushMatrix();
+
+	glRotated(-90, 1, 0, 0);
+
+	glRotated(180, 0, 0, 1);
+
+	glPushMatrix();
+	glTranslatef(0.0f, 5.0f, 2.5f);
+	this->ceiling.Bind();
+	glScalef(5.0f, 10.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(8.0f, 0.0f, 2.5f);
+	this->ceiling.Bind();
+	glScalef(3.0f, 9.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-8.0f, 0.0f, 2.5f);
+	this->ceiling.Bind();
+	glScalef(3.0f, 9.0f, 1.0f);
+	MakeTextureQuad();
+	glPopMatrix();
+
+	glPopMatrix();
+	
+	//ceiling end
+
+	this->floor.Bind();
+
+	glBegin(GL_QUADS);
+	glTexCoord2d(1.0, 0.0); 
+	glVertex3d(-50, 50, -150);
+	glTexCoord2d(0.0, 0.0);
+	glVertex3d(-1, 2.5, -5);
+	glTexCoord2d(0.0, 1.0);
+	glVertex3d(-1, -2.5, -5);
+	glTexCoord2d(1.0, 1.0);
+	glVertex3d(-50, -50, -150);
+	glEnd();
+	
+	glBegin(GL_QUADS);
+	glTexCoord2d(1.0, 0.0);
+	glVertex3d(50, 50, -150);  //TOP RIGHT
+	glTexCoord2d(0.0, 0.0);
+	glVertex3d(1, 2.5, -5);  //TOP LEFT
+	glTexCoord2d(0.0, 1.0);
+	glVertex3d(1, -2.5, -5); //BOTTOM LEFT
+	glTexCoord2d(1.0, 1.0);
+	glVertex3d(50, -50, -150); //BOTTOM RIGHT
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glTexCoord2d(1.0, 0.0);
+	glVertex3d(50, 50, -150);  //TOP RIGHT
+	glTexCoord2d(0.0, 0.0);
+	glVertex3d(-50, 50, -150);  //TOP LEFT
+	glTexCoord2d(0.0, 1.0);
+	glVertex3d(-1, 2.5, -5); //BOTTOM LEFT
+	glTexCoord2d(1.0, 1.0);
+	glVertex3d(1, 2.5, -5); //BOTTOM RIGHT
+	glEnd();
+	
 
 //	if(lightingState) glEnable(GL_LIGHTING);
 //	if(depthTestState) glEnable(GL_DEPTH_TEST);
@@ -57,12 +308,12 @@ void Museum::MakeTextureQuad()
 {
 	glBegin(GL_QUADS);
 	glTexCoord2d(1.0, 0.0);
-	glVertex3d(1, 1, -1);
+	glVertex3d(1, 1, 0);
 	glTexCoord2d(0.0, 0.0);
-	glVertex3d(-1, 1, -1);
+	glVertex3d(-1, 1, 0);
 	glTexCoord2d(0.0, 1.0);
-	glVertex3d(-1, -1, -1);
+	glVertex3d(-1, -1, 0);
 	glTexCoord2d(1.0, 1.0);
-	glVertex3d(1, -1, -1);
+	glVertex3d(1, -1, 0);
 	glEnd();
 }

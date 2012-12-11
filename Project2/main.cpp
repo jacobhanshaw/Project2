@@ -47,8 +47,8 @@ int original_window_width = 512;
 int original_window_height = 512;
 FrameBufferObject fbo;
 Museum *graphicsMuseum = new Museum();
-PlanarMesh *chandelierOuter = new PlanarMesh(50, 50, true);
-PlanarMesh *chandelierLight = new PlanarMesh(50, 50, true);
+PlanarMesh *chandelierOuter = new PlanarMesh(25, 25, true);
+PlanarMesh *chandelierLight = new PlanarMesh(25, 25, true);
 ILContainer chandelierOuterTexture;
 ILContainer chandelierLightTexture;
 
@@ -138,13 +138,14 @@ float sphere(float input) {
 void DisplayFunc()
 {
 	CheckGLErrors("Start Display: ");
-	glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window_width, window_height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(40.0, double(window_width) / double(window_height), 1, 50);
+	gluPerspective(40.0, double(window_width) / double(window_height), 1, 500);
+	//glOrtho(0, window_width, 0, window_height, 1, 500);
 	camera();
 	glMatrixMode(GL_MODELVIEW);
 	//gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
@@ -408,6 +409,16 @@ void KeyboardFunc(unsigned char c, int x, int y)
 		else cout << "yRotation reached what should be an unreachable state";
 		yrot = yrotOriginal;
 		}
+		break;
+
+	case 'C':
+	case 'c':
+		ypos++;
+		break;
+
+	case 'Z':
+	case 'z':
+		ypos--;
 		break;
 
 	}
