@@ -39,6 +39,7 @@ glm::vec2 mousePos;
 point positions[2000];
 bool isWireFrame = false;
 bool isFullScreen = false;
+bool controlModeIsOneHanded = true;
 int index = 0;
 int window_width = 512;
 int window_height = 512;
@@ -51,8 +52,22 @@ PlanarMesh *chandelierLight = new PlanarMesh(100, 100, true);
 ILContainer chandelierOuterTexture;
 ILContainer chandelierLightTexture;
 
+//angle of rotation and position of camera
+static float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, zrot = 0.0, angle=0.0;
+
 using namespace std;
 
+//camera function for controlling a global camera:
+// controlled with the arrow keys
+void camera () {
+    glRotatef(xrot,1.0,0.0,0.0);  //rotate our camera on teh 
+									//x-axis (left and right)
+    glRotatef(yrot,0.0,1.0,0.0);  //rotate our camera on the 
+									//	y-axis (up and down)
+	glRotatef(zrot, 0, 0, 1);
+    glTranslated(-xpos,-ypos,-zpos); //translate the screen
+								  // to the position of our camera
+}
 
 //function used in debugging to check for GL errors
 // prints any error to the console if one is found
@@ -88,7 +103,7 @@ float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
+//	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
 	glRotatef(-time * 60.0f, 1.0f, 1.0f, 0.0f);
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -129,7 +144,10 @@ void DisplayFunc()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40.0, double(window_width) / double(window_height), 1, 50);
+	camera();
 	glMatrixMode(GL_MODELVIEW);
+
+	gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
 
 	graphicsMuseum->render();
 
@@ -234,7 +252,30 @@ void ReshapeFunc(int w, int h)
 
 void SpecialFunc(int c, int x, int y)
 {
+	switch (c) {
+	case GLUT_KEY_LEFT:
+		if (yrot == 0 || yrot == 360) yrot = 359; 
+		else yrot--;
+		cout << "Current Y Rot = " << yrot;
+		break;
 
+	case GLUT_KEY_RIGHT: 
+		if (yrot == 0 || yrot == 360) yrot = 1;
+		else yrot++;
+		break;
+
+	case GLUT_KEY_UP:
+		if (xrot == 0 || xrot == 360) xrot = 359; 
+		else xrot--;
+		break;
+
+	case GLUT_KEY_DOWN:
+		if (yrot == 0 || yrot == 360) yrot = 1;
+		else xrot++;
+		break;
+
+	default: break;
+	}
 }
 
 void KeyboardFunc(unsigned char c, int x, int y)
@@ -254,11 +295,69 @@ void KeyboardFunc(unsigned char c, int x, int y)
 		isFullScreen = !isFullScreen;
 		break;
 		
-	case 'W':
-	case 'w':
+	case 'Q':
+	case 'q':
 		if (!isWireFrame) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		isWireFrame = !isWireFrame;
+		break;
+
+	case 'W':
+	case 'w':
+		if(yrot >= 0 && yrot <= 90){
+			xpos += yrot/90;
+			zpos -= 1 - yrot/90;
+		}
+		else if(yrot <= 180){
+			xpos += 1 - (yrot -90)/90;
+			zpos += (yrot -90)/90;
+		}
+		else if(yrot <= 270){
+			xpos -= (yrot - 180)/90;
+			zpos += 1 - (yrot - 180)/90;
+		}
+		else if(yrot <= 360){
+			xpos -= 1 - (yrot - 270)/90;
+			zpos -= (yrot - 270)/90;
+		}
+		else cout << "yRotation reached what should be an unreachable state";
+		break;
+
+	case 'S':
+	case 's':
+		if(yrot >= 0 && yrot <= 90){
+			xpos -= yrot/90;
+			zpos += 1 - yrot/90;
+		}
+		else if(yrot <= 180){
+			xpos -= 1 - (yrot -90)/90;
+			zpos -= (yrot -90)/90;
+		}
+		else if(yrot <= 270){
+			xpos += (yrot - 180)/90;
+			zpos -= 1 - (yrot - 180)/90;
+		}
+		else if(yrot <= 360){
+			xpos += 1 - (yrot - 270)/90;
+			zpos += (yrot - 270)/90;
+		}
+		else cout << "yRotation reached what should be an unreachable state";
+		break;
+
+	case 'A':
+	case 'a':
+		if(controlModeIsOneHanded){
+			if (yrot == 0 || yrot == 360) yrot = 359;
+			else yrot--;
+		}
+		break;
+
+	case 'D':
+	case 'd':
+		if(controlModeIsOneHanded){
+			if (yrot == 0 || yrot == 360) yrot = 1;
+			else yrot++;
+		}
 		break;
 
 	}
