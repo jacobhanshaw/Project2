@@ -521,9 +521,9 @@ void checkForMouseCollisions(int startLastEnd){
 	vec3 line =  glm::vec3(posX, posY, posZ);
 	
 	//east and west walls
-	float bottom = posX;
+	float bottom = posX-xpos;
 	if((bottom !=0)){
-	float t = (wallPlaneWestDistance/bottom);
+	float t = ((wallPlaneWestDistance-xpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
@@ -545,7 +545,7 @@ void checkForMouseCollisions(int startLastEnd){
 
 	}
 	else{
-		t= -t;
+		t= ((-wallPlaneWestDistance-xpos)/bottom);
 
 	if(startLastEnd == 0){
 	startCollisionPositionEast.x = t * posX;
