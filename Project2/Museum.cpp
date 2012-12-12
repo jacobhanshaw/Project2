@@ -18,42 +18,46 @@ void Museum::render() {
 	glLoadIdentity();
 
 	glScalef(4.0f, 2.0f, 2.0f);
-
+	
+	//north walls start
 	glPushMatrix();
 	glTranslatef(-3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
 	glScalef(3.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
 	glScalef(3.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -150.0f);
 	this->wall.Bind();
 	glScalef(50.0f, 50.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
-	//Back begin
+
+	//north walls end
+
+	//south walls start
 
 	glPushMatrix();
 	glRotated(-180, 0, 1, 0);
@@ -61,54 +65,56 @@ void Museum::render() {
 	glTranslatef(-4.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(4.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
 	glScalef(3.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
 	glScalef(3.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-2.0f, 0.0f, -7.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(2.0f, 0.0f, -7.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -15.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPopMatrix();
-	//back end
+	//south walls end
 
+
+	//side walls start
 	glPushMatrix();
 
 	glRotated(-90, 0, 1, 0);
@@ -117,38 +123,42 @@ void Museum::render() {
 	glTranslatef(0.0f, 0.0f, -11.0f);
 	this->wall.Bind();
 	glScalef(9.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(7.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-7.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(6.0f, 0.0f, -3.0f); //EDITED THIS ONE
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 	
 	glPushMatrix();
 	glTranslatef(11.0f, 0.0f, -1.0f); //EDITED THIS ONE
 	this->wall.Bind();
 	glScalef(4.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 	
 	glPopMatrix();
+
+	//side walls end
+
+	//side walls start
 
 	glPushMatrix();
 
@@ -158,28 +168,28 @@ void Museum::render() {
 	glTranslatef(0.0f, 0.0f, -11.0f);
 	this->wall.Bind();
 	glScalef(9.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(7.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-7.0f, 0.0f, -5.0f);
 	this->wall.Bind();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-6.0f, 0.0f, -3.0f);
 	this->wall.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 
 	
@@ -187,11 +197,13 @@ void Museum::render() {
 	glTranslatef(-11.0f, 0.0f, -1.0f);
 	this->wall.Bind();
 	glScalef(4.0f, 2.5f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(1,1);
 	glPopMatrix();
 	
 
 	glPopMatrix();
+
+	//side walls end
 
 	//floor start
 
@@ -203,28 +215,28 @@ void Museum::render() {
 	glTranslatef(0.0f, -30.0f, 2.5f);
 	this->floor.Bind();
 	glScalef(2.0f, 25.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(4,6);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0f, 5.0f, 2.5f);
 	this->floor.Bind();
 	glScalef(5.0f, 10.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(10,2);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, 2.5f);
 	this->floor.Bind();
 	glScalef(3.0f, 9.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(6,2);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, 2.5f);
 	this->floor.Bind();
 	glScalef(3.0f, 9.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(6,2);
 	glPopMatrix();
 
 	glPopMatrix();
@@ -242,21 +254,21 @@ void Museum::render() {
 	glTranslatef(0.0f, 5.0f, 2.5f);
 	this->ceiling.Bind();
 	glScalef(5.0f, 10.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(10,10);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, 2.5f);
 	this->ceiling.Bind();
 	glScalef(3.0f, 9.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(6,9);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, 2.5f);
 	this->ceiling.Bind();
 	glScalef(3.0f, 9.0f, 1.0f);
-	MakeTextureQuad();
+	MakeTextureQuad(6,9);
 	glPopMatrix();
 
 	glPopMatrix();
@@ -304,16 +316,16 @@ void Museum::render() {
 	if(!texture2DState) glDisable(GL_TEXTURE_2D);
 } 
 
-void Museum::MakeTextureQuad()
+void Museum::MakeTextureQuad(int xTextureDensity, int yTextureDensity)
 {
 	glBegin(GL_QUADS);
-	glTexCoord2d(1.0, 0.0);
+	glTexCoord2d(1.0 * xTextureDensity, 0.0);
 	glVertex3d(1, 1, 0);
 	glTexCoord2d(0.0, 0.0);
 	glVertex3d(-1, 1, 0);
-	glTexCoord2d(0.0, 1.0);
+	glTexCoord2d(0.0, 1.0 * yTextureDensity);
 	glVertex3d(-1, -1, 0);
-	glTexCoord2d(1.0, 1.0);
+	glTexCoord2d(1.0 * xTextureDensity, 1.0 * yTextureDensity);
 	glVertex3d(1, -1, 0);
 	glEnd();
 }

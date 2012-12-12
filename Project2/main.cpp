@@ -528,27 +528,27 @@ int main(int argc, char * argv[])
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	if (graphicsMuseum->ceiling.Initialize("Art_Museum_Ceiling.jpg") == false)
+	if (graphicsMuseum->ceiling.Initialize("celing1.jpg") == false)
 	{
 		cerr << "Failed to load Art Museum Ceiling texture." << endl;
 	}
 
-	if (graphicsMuseum->wall.Initialize("Art_Museum_Wall.jpg") == false)
+	if (graphicsMuseum->wall.Initialize("wall4.jpg") == false)
 	{
 		cerr << "Failed to load Art Museum Wall texture." << endl;
 	}
 
-	if (graphicsMuseum->floor.Initialize("Art_Museum_Floor.jpg") == false)
+	if (graphicsMuseum->floor.Initialize("floor3.jpg") == false)
 	{
 		cerr << "Failed to load Art Museum Floor texture." << endl;
 	}
 
-	if (chandelierOuterTexture.Initialize("shark_white.jpg") == false)
+	if (chandelierOuterTexture.Initialize("light1.jpg") == false)
 	{
 		cerr << "Failed to load Chandelier Outer texture." << endl;
 	}
 
-	if (chandelierLightTexture.Initialize("blue_glass_texture.jpg") == false)
+	if (chandelierLightTexture.Initialize("moon.jpg") == false)
 	{
 		cerr << "Failed to load Chandelier Light texture." << endl;
 	}

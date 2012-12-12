@@ -28,7 +28,7 @@ public:
 	Museum();
 
 	void render();
-	void MakeTextureQuad();
+	void MakeTextureQuad(int xTextureDensity, int yTextureDensity);
 
 private:
 
