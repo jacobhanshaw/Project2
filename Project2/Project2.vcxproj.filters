@@ -39,12 +39,24 @@
     <ClCompile Include="ilcontainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Picture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="stub.frag">
       <Filter>Source Files</Filter>
     </None>
     <None Include="stub.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="texture.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="warp.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="warp.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -68,6 +80,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Picture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

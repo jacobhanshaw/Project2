@@ -10,6 +10,7 @@
 
 #include "ilcontainer.h"
 #include "planar_mesh.h"
+#include "Picture.h"
 
 using namespace std;
 using namespace glm;
@@ -25,6 +26,8 @@ public:
 	ILContainer wall;
 	ILContainer floor;
 
+	vector<Picture> pictures;
+
 	Museum();
 
 	void render();
@@ -32,6 +35,7 @@ public:
 
 private:
 
+	
 	vector<vec3> va_vertices; //array of vertices of the Museum
 	vector<vec4> va_colors;   //array of colors indicating the color of the vertices
 	vector<ivec3> va_indices; //array of indices indicating how the vertices should join together to form a shape

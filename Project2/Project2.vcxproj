@@ -87,18 +87,23 @@
     <ClCompile Include="ilcontainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Museum.cpp" />
+    <ClCompile Include="Picture.cpp" />
     <ClCompile Include="planar_mesh.cpp" />
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="stub.frag" />
     <None Include="stub.vert" />
+    <None Include="texture.vert" />
+    <None Include="warp.frag" />
+    <None Include="warp.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbo.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="ilcontainer.h" />
     <ClInclude Include="Museum.h" />
+    <ClInclude Include="Picture.h" />
     <ClInclude Include="planar_mesh.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="utilities.h" />

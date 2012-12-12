@@ -1,45 +1,28 @@
 #pragma once
+
+#include <gl/glew.h>
+#include <glm/glm.hpp>
 #include <stdio.h>
 #include <vector>
-#include <GL/freeglut.h>
-#include <glm/glm.hpp>
+#include <assert.h>
+
+#include "ilcontainer.h"
 
 using namespace std;
-using namespace glm;
-
-/*
-   The Picture class contains properties and methods unique to the picture class 
-   as well as the method to construct and render a picture.
-*/
 
 class Picture {
 
-public:
-	Picture();
-
-	//Picture(bool isMoving, vec3 position, vec3 rotation, vec3 scale, vec3 velocity, vec4 color);// : Object(isMoving, position, rotation, scale, velocity, color) {};
-	//overloaded constructor used to instantiate object superclass
-
-	~Picture();
-
-	void render();  //display the balloon
-
-//	inline void setPointValue(int value) { this->pointValue = value; }
-//	inline int getPointValue() { return this->pointValue; }
-
-	
-
 private:
-	static vector<vec3> va_vertices; //array used to hold the points in space used to define the shape of a balloon
-	static vector<ivec3> va_indices; //array used to hold groups of points that form a single triangular piece of the overall balloon
-	static vector<vec3> va_normals;  //array used to hold the normal to each point in space, used for light and shadow calculations
+	
+	glm::vec2 position;
 
-//	int pointValue;                  //value that will be added to the user's score if the balloon was successsfully hit
+public:
+	ILContainer frame;
+	ILContainer picture;
 
-	int xDensity;
-	int yDensity;
-
-	int xLength;
-	int yLength;
+	Picture();
+	Picture(int x, int z);
+	Picture(glm::vec2 pos);
+	void render();
 
 };

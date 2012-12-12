@@ -15,8 +15,9 @@ Shader::Shader()
 	this->vertex_shader_id = (GLuint) -1;
 	this->fragment_shader_id = (GLuint) -1;
 	this->program_id = (GLuint) -1;
-	this->center_handle_green = this->center_handle_red = this->size_handle = GLuint(-1);
+	this->mouse_position = this->first_mouse_position = this->last_mouse_position = this->texture = this->size_handle = GLuint(-1);
 }
+
 
 void Shader::Use()
 {
@@ -66,8 +67,6 @@ bool Shader::Initialize(char * vertex_shader_file, char * fragment_shader_file)
 
 	glUseProgram(this->program_id);
 	this->size_handle = glGetUniformLocation(this->program_id, (const GLchar *) "framebuffer_size");
-	this->center_handle_red = glGetUniformLocation(this->program_id, (const GLchar *) "center_red");
-	this->center_handle_green = glGetUniformLocation(this->program_id, (const GLchar *) "center_green");
 	this->mouse_position = glGetUniformLocation(this->program_id, (const GLchar *) "mouse_position");
 	this->first_mouse_position = glGetUniformLocation(this->program_id, (const GLchar *) "first_mouse_position");
 	this->last_mouse_position = glGetUniformLocation(this->program_id, (const GLchar *) "last_mouse_position");

@@ -507,7 +507,6 @@ int main(int argc, char * argv[])
 
 	glutMouseFunc(MouseFunc);
 	glutMotionFunc(MotionFunc);
-
 	if (glewInit() != GLEW_OK)
 	{
 		cerr << "GLEW failed to initialize." << endl;
@@ -552,6 +551,9 @@ int main(int argc, char * argv[])
 	{
 		cerr << "Failed to load Chandelier Light texture." << endl;
 	}
+	graphicsMuseum->pictures.push_back(Picture());
+	graphicsMuseum->pictures[0].frame.Initialize("frame1.png");
+	graphicsMuseum->pictures[0].picture.Initialize("earth.jpg");
 
 	chandelierOuter->ApplyCustomization(chandelier);
 	chandelierLight->ApplyCustomization(sphere);

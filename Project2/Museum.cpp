@@ -1,6 +1,8 @@
 #include "Museum.h"
 
-Museum::Museum() { }
+Museum::Museum() {
+	
+}
 
 const float PI = 3.14159265f;
 
@@ -23,8 +25,11 @@ void Museum::render() {
 	glPushMatrix();
 	glTranslatef(-3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(2.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
+	glPopMatrix();
+	pictures[0].render();
 	glPopMatrix();
 
 	glPushMatrix();

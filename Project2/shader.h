@@ -1,12 +1,12 @@
 #pragma once
 
-#include <gl/glew.h>
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <assert.h>
 
+#include <gl/glew.h>
 #include <gl/freeglut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,8 +30,6 @@ public:
 	bool LoadShader(const char * file_name, GLuint shader_id);
 	stringstream GetShaderLog(GLuint shader_id);
 	GLuint size_handle;
-	GLuint center_handle_red;
-	GLuint center_handle_green;
 	GLuint mouse_position;
 	GLuint first_mouse_position;
 	GLuint last_mouse_position;
