@@ -52,6 +52,25 @@ PlanarMesh *chandelierLight = new PlanarMesh(25, 25, true);
 ILContainer chandelierOuterTexture;
 ILContainer chandelierLightTexture;
 
+glm::vec3 startCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 startCollisionPositionNorth = glm::vec3(0,-100,0);
+glm::vec3 startCollisionPositionEast = glm::vec3(0,-100,0);
+glm::vec3 startCollisionPositionWest = glm::vec3(0,-100,0);
+glm::vec3 startCollisionPositionSouth = glm::vec3(0,-100,0);
+
+glm::vec3 lastCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 lastCollisionPositionNorth = glm::vec3(0,-100,0);
+glm::vec3 lastCollisionPositionEast = glm::vec3(0,-100,0);
+glm::vec3 lastCollisionPositionWest = glm::vec3(0,-100,0);
+glm::vec3 lastCollisionPositionSouth = glm::vec3(0,-100,0);
+
+glm::vec3 endCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 endCollisionPositionNorth = glm::vec3(0,-100,0);
+glm::vec3 endCollisionPositionEast = glm::vec3(0,-100,0);
+glm::vec3 endCollisionPositionWest = glm::vec3(0,-100,0);
+glm::vec3 endCollisionPositionSouth = glm::vec3(0,-100,0);
+
+
 //angle of rotation and position of camera
 static float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, zrot = 0.0, angle=0.0;
 
@@ -98,7 +117,7 @@ float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 1, 10);
+	gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 0.2, 10);
 	glViewport(0, 0, fbo.size.x, fbo.size.y);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -162,6 +181,46 @@ void DisplayFunc()
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
 	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	
+	if(lastCollisionPositionGiant.y != -100){
+	glLoadIdentity();
+	glTranslated(lastCollisionPositionGiant.x,lastCollisionPositionGiant.y,lastCollisionPositionGiant.z);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	}
+
+	if(lastCollisionPositionNorth.y != -100){
+	glLoadIdentity();
+	glTranslated(lastCollisionPositionNorth.x,lastCollisionPositionNorth.y,lastCollisionPositionNorth.z);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	}
+
+	if(lastCollisionPositionWest.y != -100){
+	glLoadIdentity();
+	glTranslated(lastCollisionPositionWest.x,lastCollisionPositionWest.y,lastCollisionPositionWest.z);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	}
+
+	if(lastCollisionPositionEast.y != -100){
+	glLoadIdentity();
+	glTranslated(lastCollisionPositionEast.x,lastCollisionPositionEast.y,lastCollisionPositionEast.z);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	}
+
+	if(lastCollisionPositionSouth.y != -100){
+	glLoadIdentity();
+	glTranslated(lastCollisionPositionSouth.x,lastCollisionPositionSouth.y,lastCollisionPositionSouth.z);
+	glScalef(2.0f,2.0f,2.0f);
+	chandelierLightTexture.Bind();
+	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	}
 
 //	glEnable(GL_DEPTH_TEST);
 //	RenderIntoFrameBuffer();
@@ -430,8 +489,162 @@ void CloseFunc()
 
 }
 
+void checkForMouseCollisions(int startLastEnd){
+	vec3 wallPlaneWest = glm::vec3(1, 0, 0);
+	float wallPlaneWestDistance = -44;
+	vec3 wallPlaneEast = glm::vec3(1,0,0);
+	vec4 wallPlaneNorth = glm::vec4(0,0,1, -10);
+	float wallPlaneNorthDistance = -18;
+	vec4 wallPlaneSouth = glm::vec4(0,0,1, 10);
+	vec4 wallPlaneGiant = glm::vec4(0,0,1, -300);
+	float wallPlaneGiantDistance = -300;
+
+	glLoadIdentity();
+	GLint viewport[4];                  // Where The Viewport Values Will Be Stored
+	glGetIntegerv(GL_VIEWPORT, viewport);    
+	GLdouble modelview[16];                 // Where The 16 Doubles Of The Modelview Matrix Are To Be Stored
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);  
+	GLdouble projection[16];                // Where The 16 Doubles Of The Projection Matrix Are To Be Stored
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);  
+
+	GLfloat winX, winY, winZ;               // Holds Our X, Y and Z Coordinates
+
+	winX = (float) mousePos.x;
+	winY = (float) mousePos.y;
+		
+	winY = (float)viewport[3] - winY;           // Subtract The Current Mouse Y Coordinate From The Screen Height.
+	glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+	GLdouble posX, posY, posZ;              // Hold The Final Values
+
+	gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+	vec3 line =  glm::vec3(posX, posY, posZ);
+	
+	//east and west walls
+	float bottom = posX;
+	if((bottom !=0)){
+	float t = (wallPlaneWestDistance/bottom);
+	if(t > 0){
+
+	if(startLastEnd == 0){
+	startCollisionPositionWest.x = t * posX;
+	startCollisionPositionWest.y = t * posY;
+	startCollisionPositionWest.z = t * posZ;
+	}
+	else if(startLastEnd == 1){
+	lastCollisionPositionWest.x = t * posX;
+	lastCollisionPositionWest.y = t * posY;
+	lastCollisionPositionWest.z = t * posZ;
+	}
+	else if(startLastEnd == 2){
+	endCollisionPositionWest.x = t * posX;
+	endCollisionPositionWest.y = t * posY;
+	endCollisionPositionWest.z = t * posZ;
+	}
+	else cout << "Bad ENUM to collision checking";
+
+	}
+	else{
+		t= -t;
+
+	if(startLastEnd == 0){
+	startCollisionPositionEast.x = t * posX;
+	startCollisionPositionEast.y = t * posY;
+	startCollisionPositionEast.z = t * posZ;
+	}
+	else if(startLastEnd == 1){
+	lastCollisionPositionEast.x = t * posX;
+	lastCollisionPositionEast.y = t * posY;
+	lastCollisionPositionEast.z = t * posZ;
+	}
+	else if(startLastEnd == 2){
+	endCollisionPositionEast.x = t * posX;
+	endCollisionPositionEast.y = t * posY;
+	endCollisionPositionEast.z = t * posZ;
+	}
+	else cout << "Bad ENUM to collision checking";
+
+	}
+	}
+
+	//north and south walls
+	bottom = posZ;
+	if((bottom !=0)){
+	float t = (wallPlaneNorthDistance/bottom);
+	if(t > 0){
+
+	if(startLastEnd == 0){
+	startCollisionPositionNorth.x = t * posX;
+	startCollisionPositionNorth.y = t * posY;
+	startCollisionPositionNorth.z = t * posZ;
+	}
+	else if(startLastEnd == 1){
+	lastCollisionPositionNorth.x = t * posX;
+	lastCollisionPositionNorth.y = t * posY;
+	lastCollisionPositionNorth.z = t * posZ;
+	}
+	else if(startLastEnd == 2){
+	endCollisionPositionNorth.x = t * posX;
+	endCollisionPositionNorth.y = t * posY;
+	endCollisionPositionNorth.z = t * posZ;
+	}
+	else cout << "Bad ENUM to collision checking";
+
+	}
+	else{
+		t= -t;
+
+	if(startLastEnd == 0){
+	startCollisionPositionSouth.x = t * posX;
+	startCollisionPositionSouth.y = t * posY;
+	startCollisionPositionSouth.z = t * posZ;
+	}
+	else if(startLastEnd == 1){
+	lastCollisionPositionSouth.x = t * posX;
+	lastCollisionPositionSouth.y = t * posY;
+	lastCollisionPositionSouth.z = t * posZ;
+	}
+	else if(startLastEnd == 2){
+	endCollisionPositionSouth.x = t * posX;
+	endCollisionPositionSouth.y = t * posY;
+	endCollisionPositionSouth.z = t * posZ;
+	}
+	else cout << "Bad ENUM to collision checking";
+
+	}
+	}
+
+	//far wall
+	bottom = posZ;
+	if((bottom !=0)){
+	float t = (wallPlaneGiantDistance/bottom);
+	if(t > 0){
+
+	if(startLastEnd == 0){
+	startCollisionPositionGiant.x = t * posX;
+	startCollisionPositionGiant.y = t * posY;
+	startCollisionPositionGiant.z = t * posZ;
+	}
+	else if(startLastEnd == 1){
+	lastCollisionPositionGiant.x = t * posX;
+	lastCollisionPositionGiant.y = t * posY;
+	lastCollisionPositionGiant.z = t * posZ;
+	}
+	else if(startLastEnd == 2){
+	endCollisionPositionGiant.x = t * posX;
+	endCollisionPositionGiant.y = t * posY;
+	endCollisionPositionGiant.z = t * posZ;
+	}
+	else cout << "Bad ENUM to collision checking";
+
+	}
+	}
+}
+
 
 void MouseFunc(int button, int state, int x, int y){
+	mousePos.x = (float)x;
+	mousePos.y = (float)y;
 	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		firstMousePos.x = (float)x;
 		firstMousePos.y = (float)y;
@@ -441,19 +654,22 @@ void MouseFunc(int button, int state, int x, int y){
 		cout << x;
 		cout << " and YPos: ";
 		cout << y;
+		checkForMouseCollisions(0);
 	}
 	else if(button !=GLUT_RIGHT_BUTTON && button != GLUT_MIDDLE_BUTTON) {
 		lastMouseXPosition = -1;
 		lastMouseYPosition = -1;
 		//firstMousePos.x = -1;
 		//firstMousePos.y = -1;
+		checkForMouseCollisions(2);
 		cout << "\nReset Mouse Position";
 	}
-	mousePos.x = (float)x;
-	mousePos.y = (float)y;
 }
 
 void MotionFunc(int x, int y) {
+	mousePos.x = (float)x;
+	mousePos.y = (float)y;
+
 	if(x > window_width || x < 0 || y > window_height || y < 0){
 		lastMouseXPosition = -1;
 		lastMouseYPosition = -1;
@@ -473,9 +689,8 @@ void MotionFunc(int x, int y) {
 		cout << differenceY;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
+		checkForMouseCollisions(1);
 	}
-	mousePos.x = (float)x;
-	mousePos.y = (float)y;
 }
 
 int main(int argc, char * argv[])
@@ -522,6 +737,7 @@ int main(int argc, char * argv[])
 	{
 		return 0;
 	}
+
 	ilInit();
 	iluInit();
 	ilutInit();
