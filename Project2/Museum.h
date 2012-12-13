@@ -26,6 +26,7 @@ public:
 
 	ILContainer ceiling;
 	ILContainer wall;
+	ILContainer door;
 	ILContainer floor;
 
 	vector<Picture> pictures;

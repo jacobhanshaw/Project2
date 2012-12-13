@@ -806,6 +806,11 @@ int main(int argc, char * argv[])
 		cerr << "Failed to load Art Museum Wall texture." << endl;
 	}
 
+	if (graphicsMuseum->door.Initialize("door.jpg") == false)
+	{
+		cerr << "Failed to load Art Museum Door texture." << endl;
+	}
+
 	if (graphicsMuseum->floor.Initialize("floor3.jpg") == false)
 	{
 		cerr << "Failed to load Art Museum Floor texture." << endl;

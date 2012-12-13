@@ -1,4 +1,4 @@
-﻿Build started 12/13/2012 3:32:22 PM.
+﻿Build started 12/13/2012 3:58:30 PM.
      1>Project "\\wfs1\users$\hanshaw\Desktop\GitHub\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -40,4 +40,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:38.50
+Time Elapsed 00:00:41.39

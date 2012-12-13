@@ -94,7 +94,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	MakeTextureQuad(1,1);
 	glPopMatrix();
 
-	//SW Wall
+	//SE Wall
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
@@ -102,10 +102,11 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	//pictures[0].render(fbo->texture_handles[6]);
+	pictures[6].setWorldCenterPosition(glm::vec3(32.0f, 0.0f, (18.0f - 0.02)));
+	pictures[6].render();
 	glPopMatrix();
 
-	//SE Wall
+	//SW Wall
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
@@ -113,7 +114,8 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	//pictures[0].render(fbo->texture_handles[5]);
+	pictures[5].setWorldCenterPosition(glm::vec3(-32.0f, 0.0f, (18.0f - 0.02)));
+	pictures[5].render();
 	glPopMatrix();
 
 	glPushMatrix();
@@ -132,7 +134,7 @@ void Museum::render(FrameBufferObject * fbo) {
 
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -15.0f);
-	this->wall.Bind();
+	this->door.Bind();
 	glScalef(1.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
@@ -141,7 +143,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	//south walls end
 
 
-	//side walls start
+	//east walls start
 	glPushMatrix();
 
 	glRotated(-90, 0, 1, 0);
@@ -157,7 +159,8 @@ void Museum::render(FrameBufferObject * fbo) {
 
 	glPushMatrix();
 	//glScalef(0.5f,1.0f,2.0f);
-//	pictures[0].render(fbo->texture_handles[4]);
+	pictures[4].setWorldCenterPosition(glm::vec3((44.0f - 0.02f), 0.0f, 0.0f));
+	pictures[4].render();
 	glPopMatrix();
 
 	glPopMatrix();
@@ -194,7 +197,7 @@ void Museum::render(FrameBufferObject * fbo) {
 
 	//side walls end
 
-	//side walls start
+	//west walls start
 
 	glPushMatrix();
 
@@ -207,7 +210,8 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(9.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	//pictures[0].render(fbo->texture_handles[0]);
+	pictures[0].setWorldCenterPosition(glm::vec3((-44.0f + 0.02f), 0.0f, 0.0f));
+	pictures[0].render();
 	glPopMatrix();
 
 	glPushMatrix();
