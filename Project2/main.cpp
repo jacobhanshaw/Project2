@@ -359,8 +359,32 @@ void SpecialFunc(int c, int x, int y)
 	}
 }
 
+bool checkForWallCollisions(int newX, int newY, int newZ) {
+	if(!(newY >= 5 || newY <= -5)){
+		if(newZ >= 28) return false;
+		if(newZ <= -100) return false;
+		if(newX <= -42) return false;
+		if(newX >= 42) return false;
+
+		if(newZ >= 8) {
+			if((newX <= 22 && newX >=2) || (newX >= -22 && newX <=-2)) return false;
+			else if (newX > 22 || newX < -22) if(newZ < -16 || newZ > 16) return false;
+		}
+		if(newZ <= -8) {
+			if((newX <= 22 && newX >=2) || (newX >= -22 && newX <=-2)) return false;
+			else if (newX > 22 || newX < -22) if(newZ < -16 || newZ > 16) return false;
+		}
+		
+		return true;
+	}
+	else return true;
+}
+
 void KeyboardFunc(unsigned char c, int x, int y)
 {
+	float newX = xpos;
+	float newY = ypos;
+	float newZ = zpos;
 	switch (c)
 	{
 	case 27:
@@ -391,20 +415,36 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	case 'W':
 	case 'w':
 		if(yrot >= 0 && yrot <= 90){
-			xpos += yrot/90;
-			zpos -= 1 - yrot/90;
+			newX += yrot/90;
+			newZ -= 1 - yrot/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 180){
-			xpos += 1 - (yrot -90)/90;
-			zpos += (yrot -90)/90;
+			newX += 1 - (yrot -90)/90;
+			newZ += (yrot -90)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 270){
-			xpos -= (yrot - 180)/90;
-			zpos += 1 - (yrot - 180)/90;
+			newX -= (yrot - 180)/90;
+			newZ += 1 - (yrot - 180)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 360){
-			xpos -= 1 - (yrot - 270)/90;
-			zpos -= (yrot - 270)/90;
+			newX -= 1 - (yrot - 270)/90;
+			newZ -= (yrot - 270)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else cout << "yRotation reached what should be an unreachable state";
 		break;
@@ -412,20 +452,36 @@ void KeyboardFunc(unsigned char c, int x, int y)
 	case 'S':
 	case 's':
 		if(yrot >= 0 && yrot <= 90){
-			xpos -= yrot/90;
-			zpos += 1 - yrot/90;
+			newX -= yrot/90;
+			newZ += 1 - yrot/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 180){
-			xpos -= 1 - (yrot -90)/90;
-			zpos -= (yrot -90)/90;
+			newX -= 1 - (yrot -90)/90;
+			newZ -= (yrot -90)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 270){
-			xpos += (yrot - 180)/90;
-			zpos -= 1 - (yrot - 180)/90;
+			newX += (yrot - 180)/90;
+			newZ -= 1 - (yrot - 180)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 360){
-			xpos += 1 - (yrot - 270)/90;
-			zpos += (yrot - 270)/90;
+			newX += 1 - (yrot - 270)/90;
+			newZ += (yrot - 270)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else cout << "yRotation reached what should be an unreachable state";
 		break;
@@ -441,20 +497,36 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			yrot -= 90;
 			if(yrot < 0) yrot += 360;
 			if(yrot >= 0 && yrot <= 90){
-			xpos += yrot/90;
-			zpos -= 1 - yrot/90;
+			newX += yrot/90;
+			newZ -= 1 - yrot/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 180){
-			xpos += 1 - (yrot -90)/90;
-			zpos += (yrot -90)/90;
+			newX += 1 - (yrot -90)/90;
+			newZ += (yrot -90)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 270){
-			xpos -= (yrot - 180)/90;
-			zpos += 1 - (yrot - 180)/90;
+			newX -= (yrot - 180)/90;
+			newZ += 1 - (yrot - 180)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 360){
-			xpos -= 1 - (yrot - 270)/90;
-			zpos -= (yrot - 270)/90;
+			newX -= 1 - (yrot - 270)/90;
+			newZ -= (yrot - 270)/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else cout << "yRotation reached what should be an unreachable state";
 			yrot = yrotOriginal;
@@ -472,20 +544,24 @@ void KeyboardFunc(unsigned char c, int x, int y)
 			yrot += 90;
 			if(yrot > 360) yrot -= 360;
 			if(yrot >= 0 && yrot <= 90){
-			xpos += yrot/90;
-			zpos -= 1 - yrot/90;
+			newX += yrot/90;
+			newZ -= 1 - yrot/90;
+			if(checkForWallCollisions(newX,newY,newZ)){
+				xpos = newX;
+				zpos = newZ;
+			}
 		}
 		else if(yrot <= 180){
-			xpos += 1 - (yrot -90)/90;
-			zpos += (yrot -90)/90;
+			newX += 1 - (yrot -90)/90;
+			newZ += (yrot -90)/90;
 		}
 		else if(yrot <= 270){
-			xpos -= (yrot - 180)/90;
-			zpos += 1 - (yrot - 180)/90;
+			newX -= (yrot - 180)/90;
+			newZ += 1 - (yrot - 180)/90;
 		}
 		else if(yrot <= 360){
-			xpos -= 1 - (yrot - 270)/90;
-			zpos -= (yrot - 270)/90;
+			newX -= 1 - (yrot - 270)/90;
+			newZ -= (yrot - 270)/90;
 		}
 		else cout << "yRotation reached what should be an unreachable state";
 		yrot = yrotOriginal;
@@ -508,17 +584,12 @@ void KeyboardFunc(unsigned char c, int x, int y)
 void CloseFunc()
 {
 	warpShader.TakeDown();
-	fbo.TakeDown();
+
 }
 
 void checkForMouseCollisions(int startLastEnd){
-	vec3 wallPlaneWest = glm::vec3(1, 0, 0);
 	float wallPlaneWestDistance = -44;
-	vec3 wallPlaneEast = glm::vec3(1,0,0);
-	vec4 wallPlaneNorth = glm::vec4(0,0,1, -10);
 	float wallPlaneNorthDistance = -18;
-	vec4 wallPlaneSouth = glm::vec4(0,0,1, 10);
-	vec4 wallPlaneGiant = glm::vec4(0,0,1, -300);
 	float wallPlaneGiantDistance = -300;
 
 	glLoadIdentity();
@@ -541,30 +612,33 @@ void checkForMouseCollisions(int startLastEnd){
 	gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
 	vec3 line =  glm::vec3(posX, posY, posZ);
-	
-	cout << "\n Line Point" << posX << " " << posY << " " << posZ;
 
 	//east and west walls
 	float bottom = posX-xpos;
+	float xPositionDifference = posX - xpos;
+	float yPositionDifference = posY - ypos;
+	float zPositionDifference = posZ - zpos;
+
+	float t;
 	if((bottom !=0)){
-	float t = ((wallPlaneWestDistance-xpos)/bottom);
+	t = ((wallPlaneWestDistance-xpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionWest.x = xpos + t * (posX - xpos);
-	startCollisionPositionWest.y = ypos + t * (posY - ypos);
-	startCollisionPositionWest.z = zpos + t * (posY - zpos);
+	startCollisionPositionWest.x = xpos + t * xPositionDifference;
+	startCollisionPositionWest.y = ypos + t * yPositionDifference;
+	startCollisionPositionWest.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionWest.x = xpos + t * (posX - xpos);
-	lastCollisionPositionWest.y = ypos + t * (posY - ypos);
-	lastCollisionPositionWest.z = zpos + t * (posZ - zpos);
+	lastCollisionPositionWest.x = xpos + t * xPositionDifference;
+	lastCollisionPositionWest.y = ypos + t * yPositionDifference;
+	lastCollisionPositionWest.z = zpos + t * zPositionDifference;
 
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionWest.x = xpos + t * (posX - xpos);
-	endCollisionPositionWest.y = ypos + t * (posY - ypos);
-	endCollisionPositionWest.z = zpos + t * (posZ - zpos);
+	endCollisionPositionWest.x = xpos + t * xPositionDifference;
+	endCollisionPositionWest.y = ypos + t * yPositionDifference;
+	endCollisionPositionWest.z = zpos + t * zPositionDifference;
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -573,19 +647,19 @@ void checkForMouseCollisions(int startLastEnd){
 		t= ((-wallPlaneWestDistance-xpos)/bottom);
 
 	if(startLastEnd == 0){
-	startCollisionPositionEast.x =  xpos + t * (posX - xpos);
-	startCollisionPositionEast.y =  ypos + t * (posY - ypos);
-	startCollisionPositionEast.z =  zpos + t * (posZ - zpos);
+	startCollisionPositionEast.x =  xpos + t * xPositionDifference;
+	startCollisionPositionEast.y =  ypos + t * yPositionDifference;
+	startCollisionPositionEast.z =  zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionEast.x = xpos + t * (posX - xpos);
-	lastCollisionPositionEast.y = ypos + t * (posY - ypos);
-	lastCollisionPositionEast.z = zpos + t * (posZ - zpos);
+	lastCollisionPositionEast.x = xpos + t * xPositionDifference;
+	lastCollisionPositionEast.y = ypos + t * yPositionDifference;
+	lastCollisionPositionEast.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionEast.x = xpos + t * (posX - xpos);
-	endCollisionPositionEast.y = ypos + t * (posY - ypos);
-	endCollisionPositionEast.z = zpos + t * (posZ - zpos);
+	endCollisionPositionEast.x = xpos + t * xPositionDifference;
+	endCollisionPositionEast.y = ypos + t * yPositionDifference;
+	endCollisionPositionEast.z = zpos + t * zPositionDifference;
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -595,23 +669,23 @@ void checkForMouseCollisions(int startLastEnd){
 	//north and south walls
 	bottom = posZ -zpos;
 	if((bottom !=0)){
-	float t = ((wallPlaneNorthDistance-zpos)/bottom);
+	t = ((wallPlaneNorthDistance-zpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionNorth.x = xpos + t * (posX - xpos);
-	startCollisionPositionNorth.y = ypos + t * (posY - ypos);
-	startCollisionPositionNorth.z = zpos + t * (posZ - zpos);
+	startCollisionPositionNorth.x = xpos + t * xPositionDifference;
+	startCollisionPositionNorth.y = ypos + t * yPositionDifference;
+	startCollisionPositionNorth.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionNorth.x = xpos + t * (posX - xpos);
-	lastCollisionPositionNorth.y = ypos + t * (posY - ypos);
-	lastCollisionPositionNorth.z = zpos + t * (posZ - zpos);
+	lastCollisionPositionNorth.x = xpos + t * xPositionDifference;
+	lastCollisionPositionNorth.y = ypos + t * yPositionDifference;
+	lastCollisionPositionNorth.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionNorth.x = xpos + t * (posX - xpos);
-	endCollisionPositionNorth.y = ypos + t * (posY - ypos);
-	endCollisionPositionNorth.z = zpos + t * (posZ - zpos);
+	endCollisionPositionNorth.x = xpos + t * xPositionDifference;
+	endCollisionPositionNorth.y = ypos + t * yPositionDifference;
+	endCollisionPositionNorth.z = zpos + t * zPositionDifference;
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -620,19 +694,19 @@ void checkForMouseCollisions(int startLastEnd){
 		t= ((-wallPlaneNorthDistance-zpos)/bottom);
 
 	if(startLastEnd == 0){
-	startCollisionPositionSouth.x = xpos + t * (posX - xpos);
-	startCollisionPositionSouth.y = ypos + t * (posY - ypos);
-	startCollisionPositionSouth.z = zpos + t * (posZ - zpos);
+	startCollisionPositionSouth.x = xpos + t * xPositionDifference;
+	startCollisionPositionSouth.y = ypos + t * yPositionDifference;
+	startCollisionPositionSouth.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionSouth.x = xpos + t * (posX - xpos);
-	lastCollisionPositionSouth.y = ypos + t * (posY - ypos);
-	lastCollisionPositionSouth.z = zpos + t * (posZ - zpos);
+	lastCollisionPositionSouth.x = xpos + t * xPositionDifference;
+	lastCollisionPositionSouth.y = ypos + t * yPositionDifference;
+	lastCollisionPositionSouth.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionSouth.x = xpos + t * (posX - xpos);
-	endCollisionPositionSouth.y = ypos + t * (posY - ypos);
-	endCollisionPositionSouth.z = zpos + t * (posZ - zpos);
+	endCollisionPositionSouth.x = xpos + t * xPositionDifference;
+	endCollisionPositionSouth.y = ypos + t * yPositionDifference;
+	endCollisionPositionSouth.z = zpos + t * zPositionDifference;
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -640,25 +714,24 @@ void checkForMouseCollisions(int startLastEnd){
 	}
 
 	//far wall
-	bottom = posZ-zpos;
 	if((bottom !=0)){
-	float t = ((wallPlaneGiantDistance-zpos)/bottom);
+	t = ((wallPlaneGiantDistance-zpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionGiant.x = xpos + t * (posX - xpos);
-	startCollisionPositionGiant.y = ypos + t * (posY - ypos);
-	startCollisionPositionGiant.z = zpos + t * (posZ - zpos);
+	startCollisionPositionGiant.x = xpos + t * xPositionDifference;
+	startCollisionPositionGiant.y = ypos + t * yPositionDifference;
+	startCollisionPositionGiant.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionGiant.x = xpos + t * (posX - xpos);
-	lastCollisionPositionGiant.y = ypos + t * (posY - ypos);
-	lastCollisionPositionGiant.z = zpos + t * (posZ - zpos);
+	lastCollisionPositionGiant.x = xpos + t * xPositionDifference;
+	lastCollisionPositionGiant.y = ypos + t * yPositionDifference;
+	lastCollisionPositionGiant.z = zpos + t * zPositionDifference;
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionGiant.x = xpos + t * (posX - xpos);
-	endCollisionPositionGiant.y = ypos + t * (posY - ypos);
-	endCollisionPositionGiant.z = zpos + t * (posZ - zpos);
+	endCollisionPositionGiant.x = xpos + t * xPositionDifference;
+	endCollisionPositionGiant.y = ypos + t * yPositionDifference;
+	endCollisionPositionGiant.z = zpos + t * zPositionDifference;
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -676,10 +749,10 @@ void MouseFunc(int button, int state, int x, int y){
 		firstMousePos.y = (float)y;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
-		cout << "\nReceived Left Button Down with XPos: ";
-		cout << x;
-		cout << " and YPos: ";
-		cout << y;
+	//	cout << "\nReceived Left Button Down with XPos: ";
+//		cout << x;
+	//	cout << " and YPos: ";
+	//	cout << y;
 		checkForMouseCollisions(0);
 	}
 	else if(button !=GLUT_RIGHT_BUTTON && button != GLUT_MIDDLE_BUTTON) {
@@ -688,7 +761,7 @@ void MouseFunc(int button, int state, int x, int y){
 		//firstMousePos.x = -1;
 		//firstMousePos.y = -1;
 		checkForMouseCollisions(2);
-		cout << "\nReset Mouse Position";
+	//	cout << "\nReset Mouse Position";
 	}
 }
 
@@ -705,14 +778,14 @@ void MotionFunc(int x, int y) {
 	if(lastMouseXPosition != -1 && lastMouseYPosition != -1){
 		int differenceX = x - lastMouseXPosition;
 		int differenceY = y - lastMouseYPosition;
-		cout << "\nReceived Motion Update with XPos: ";
-		cout << x;
-		cout << " and YPos: ";
-		cout << y;
-		cout << "\nDifference in Motion Update from lastXPos: ";
-		cout << differenceX;
-		cout << " and lastYPos: ";
-		cout << differenceY;
+	//	cout << "\nReceived Motion Update with XPos: ";
+	//	cout << x;
+	//	cout << " and YPos: ";
+	//	cout << y;
+	//	cout << "\nDifference in Motion Update from lastXPos: ";
+	//	cout << differenceX;
+	//	cout << " and lastYPos: ";
+	//	cout << differenceY;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
 		checkForMouseCollisions(1);
