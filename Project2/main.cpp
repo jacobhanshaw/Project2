@@ -520,6 +520,8 @@ void checkForMouseCollisions(int startLastEnd){
 
 	vec3 line =  glm::vec3(posX, posY, posZ);
 	
+	cout << "\n Line Point" << posX << " " << posY << " " << posZ;
+
 	//east and west walls
 	float bottom = posX-xpos;
 	if((bottom !=0)){
@@ -527,19 +529,20 @@ void checkForMouseCollisions(int startLastEnd){
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionWest.x = t * posX;
-	startCollisionPositionWest.y = t * posY;
-	startCollisionPositionWest.z = t * posZ;
+	startCollisionPositionWest.x = xpos + t * (posX - xpos);
+	startCollisionPositionWest.y = ypos + t * (posY - ypos);
+	startCollisionPositionWest.z = zpos + t * (posY - zpos);
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionWest.x = t * posX;
-	lastCollisionPositionWest.y = t * posY;
-	lastCollisionPositionWest.z = t * posZ;
+	lastCollisionPositionWest.x = xpos + t * (posX - xpos);
+	lastCollisionPositionWest.y = ypos + t * (posY - ypos);
+	lastCollisionPositionWest.z = zpos + t * (posZ - zpos);
+
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionWest.x = t * posX;
-	endCollisionPositionWest.y = t * posY;
-	endCollisionPositionWest.z = t * posZ;
+	endCollisionPositionWest.x = xpos + t * (posX - xpos);
+	endCollisionPositionWest.y = ypos + t * (posY - ypos);
+	endCollisionPositionWest.z = zpos + t * (posZ - zpos);
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -548,19 +551,19 @@ void checkForMouseCollisions(int startLastEnd){
 		t= ((-wallPlaneWestDistance-xpos)/bottom);
 
 	if(startLastEnd == 0){
-	startCollisionPositionEast.x = t * posX;
-	startCollisionPositionEast.y = t * posY;
-	startCollisionPositionEast.z = t * posZ;
+	startCollisionPositionEast.x =  xpos + t * (posX - xpos);
+	startCollisionPositionEast.y =  ypos + t * (posY - ypos);
+	startCollisionPositionEast.z =  zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionEast.x = t * posX;
-	lastCollisionPositionEast.y = t * posY;
-	lastCollisionPositionEast.z = t * posZ;
+	lastCollisionPositionEast.x = xpos + t * (posX - xpos);
+	lastCollisionPositionEast.y = ypos + t * (posY - ypos);
+	lastCollisionPositionEast.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionEast.x = t * posX;
-	endCollisionPositionEast.y = t * posY;
-	endCollisionPositionEast.z = t * posZ;
+	endCollisionPositionEast.x = xpos + t * (posX - xpos);
+	endCollisionPositionEast.y = ypos + t * (posY - ypos);
+	endCollisionPositionEast.z = zpos + t * (posZ - zpos);
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -568,46 +571,46 @@ void checkForMouseCollisions(int startLastEnd){
 	}
 
 	//north and south walls
-	bottom = posZ;
+	bottom = posZ -zpos;
 	if((bottom !=0)){
-	float t = (wallPlaneNorthDistance/bottom);
+	float t = ((wallPlaneNorthDistance-zpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionNorth.x = t * posX;
-	startCollisionPositionNorth.y = t * posY;
-	startCollisionPositionNorth.z = t * posZ;
+	startCollisionPositionNorth.x = xpos + t * (posX - xpos);
+	startCollisionPositionNorth.y = ypos + t * (posY - ypos);
+	startCollisionPositionNorth.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionNorth.x = t * posX;
-	lastCollisionPositionNorth.y = t * posY;
-	lastCollisionPositionNorth.z = t * posZ;
+	lastCollisionPositionNorth.x = xpos + t * (posX - xpos);
+	lastCollisionPositionNorth.y = ypos + t * (posY - ypos);
+	lastCollisionPositionNorth.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionNorth.x = t * posX;
-	endCollisionPositionNorth.y = t * posY;
-	endCollisionPositionNorth.z = t * posZ;
+	endCollisionPositionNorth.x = xpos + t * (posX - xpos);
+	endCollisionPositionNorth.y = ypos + t * (posY - ypos);
+	endCollisionPositionNorth.z = zpos + t * (posZ - zpos);
 	}
 	else cout << "Bad ENUM to collision checking";
 
 	}
 	else{
-		t= -t;
+		t= ((-wallPlaneNorthDistance-zpos)/bottom);
 
 	if(startLastEnd == 0){
-	startCollisionPositionSouth.x = t * posX;
-	startCollisionPositionSouth.y = t * posY;
-	startCollisionPositionSouth.z = t * posZ;
+	startCollisionPositionSouth.x = xpos + t * (posX - xpos);
+	startCollisionPositionSouth.y = ypos + t * (posY - ypos);
+	startCollisionPositionSouth.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionSouth.x = t * posX;
-	lastCollisionPositionSouth.y = t * posY;
-	lastCollisionPositionSouth.z = t * posZ;
+	lastCollisionPositionSouth.x = xpos + t * (posX - xpos);
+	lastCollisionPositionSouth.y = ypos + t * (posY - ypos);
+	lastCollisionPositionSouth.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionSouth.x = t * posX;
-	endCollisionPositionSouth.y = t * posY;
-	endCollisionPositionSouth.z = t * posZ;
+	endCollisionPositionSouth.x = xpos + t * (posX - xpos);
+	endCollisionPositionSouth.y = ypos + t * (posY - ypos);
+	endCollisionPositionSouth.z = zpos + t * (posZ - zpos);
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -615,25 +618,25 @@ void checkForMouseCollisions(int startLastEnd){
 	}
 
 	//far wall
-	bottom = posZ;
+	bottom = posZ-zpos;
 	if((bottom !=0)){
-	float t = (wallPlaneGiantDistance/bottom);
+	float t = ((wallPlaneGiantDistance-zpos)/bottom);
 	if(t > 0){
 
 	if(startLastEnd == 0){
-	startCollisionPositionGiant.x = t * posX;
-	startCollisionPositionGiant.y = t * posY;
-	startCollisionPositionGiant.z = t * posZ;
+	startCollisionPositionGiant.x = xpos + t * (posX - xpos);
+	startCollisionPositionGiant.y = ypos + t * (posY - ypos);
+	startCollisionPositionGiant.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 1){
-	lastCollisionPositionGiant.x = t * posX;
-	lastCollisionPositionGiant.y = t * posY;
-	lastCollisionPositionGiant.z = t * posZ;
+	lastCollisionPositionGiant.x = xpos + t * (posX - xpos);
+	lastCollisionPositionGiant.y = ypos + t * (posY - ypos);
+	lastCollisionPositionGiant.z = zpos + t * (posZ - zpos);
 	}
 	else if(startLastEnd == 2){
-	endCollisionPositionGiant.x = t * posX;
-	endCollisionPositionGiant.y = t * posY;
-	endCollisionPositionGiant.z = t * posZ;
+	endCollisionPositionGiant.x = xpos + t * (posX - xpos);
+	endCollisionPositionGiant.y = ypos + t * (posY - ypos);
+	endCollisionPositionGiant.z = zpos + t * (posZ - zpos);
 	}
 	else cout << "Bad ENUM to collision checking";
 
