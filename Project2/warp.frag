@@ -9,12 +9,10 @@
 
 layout (location = 0) out vec4 fragment_color;
 
-uniform ivec2 framebuffer_size;
-uniform ivec2 center_red;
-uniform ivec2 center_green;
-uniform ivec2 mouse_position;
-uniform ivec2 first_mouse_position;
-uniform ivec2 last_mouse_position;
+uniform vec2 framebuffer_size;
+uniform vec2 mouse_position;
+uniform vec2 first_mouse_position;
+uniform vec2 last_mouse_position;
 uniform sampler2D texture;
 varying vec2 texcoord;
 
@@ -22,8 +20,8 @@ void main(void)
 {
 
 	vec2 f = gl_FragCoord.xy / float(framebuffer_size);	
-	vec2 m = mouse_position / float(framebuffer_size);
-	vec2 first = first_mouse_position/ float(framebuffer_size);
+	vec2 m = mouse_position; // float(framebuffer_size);
+	vec2 first = first_mouse_position; // float(framebuffer_size);
 	vec2 texLoc;
 	vec2 direction = m - first;
 	float sRad = .5;

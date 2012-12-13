@@ -30,62 +30,55 @@ struct point {
 	int x;
 	int y;
 };
-/*
-GLuint WPicture;
-GLuint WNPicture;
-GLuint WSPicture;
-GLuint ENPicture;
-GLuint ESPicture;
-GLuint EPicture;
-GLuint GPicture;
-GLuint frame;
-*/
-GLuint pictures[8];
+
+GLuint pictures[8];													//array of pictures 
 
 Shader warpShader = Shader();
-int lastMouseXPosition = -1;
+int lastMouseXPosition = -1;										// checks if the mouse swipe has already started
 int lastMouseYPosition = -1;
-glm::vec2 firstMousePos;
-glm::vec2 mousePos;
-point positions[2000];
+glm::vec2 firstMousePos;											//inital mouse position
+glm::vec2 mousePos;													//current mouse position		
 bool isWireFrame = false;
 bool isFullScreen = false;
-bool controlModeIsOneHanded = true;
-int index = 0;
-int window_width = 512;
+bool controlModeIsOneHanded = true;									//switches between different movement modes
+int window_width = 512;											    //current window width and height
 int window_height = 512;
-int original_window_width = 512;
+int original_window_width = 512;									//saves original window width and height to restore it when leaving full screen mode
 int original_window_height = 512;
 FrameBufferObject fbo;
-Museum *graphicsMuseum = new Museum();
-PlanarMesh *chandelierOuter = new PlanarMesh(25, 25, true);
-PlanarMesh *chandelierLight = new PlanarMesh(25, 25, true);
-ILContainer chandelierOuterTexture;
+Museum *graphicsMuseum = new Museum();								//the object that renders the museum scene
+PlanarMesh *chandelierOuter = new PlanarMesh(25, 25, true);			//outer circle around chandelier
+PlanarMesh *chandelierLight = new PlanarMesh(25, 25, true);			//light within chandelier
+ILContainer chandelierOuterTexture;									
 ILContainer chandelierLightTexture;
 
-glm::vec3 startCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 startCollisionPositionGiant = glm::vec3(0,-100,0);		//initial collision in 3D coord space for each picture; goes 0-1 in x and y from top left to bottom right
 glm::vec3 startCollisionPositionNorth = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionSouth = glm::vec3(0,-100,0);
 
 
-glm::vec3 lastCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 lastCollisionPositionGiant = glm::vec3(0,-100,0);			//current collision in 3D coord space for each wall
 glm::vec3 lastCollisionPositionNorth = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionSouth = glm::vec3(0,-100,0);
 
+glm::vec3 correctedLastCollisionPositionGiant = glm::vec3(0,-100,0); //current collision in 3D coord space for each picture; goes 0-1 in x and y from top left to bottom right
+glm::vec3 correctedLastCollisionPositionNorth = glm::vec3(0,-100,0);
+glm::vec3 correctedLastCollisionPositionEast = glm::vec3(0,-100,0);
+glm::vec3 correctedLastCollisionPositionWest = glm::vec3(0,-100,0);
+glm::vec3 correctedLastCollisionPositionSouth = glm::vec3(0,-100,0);
 
-glm::vec3 endCollisionPositionGiant = glm::vec3(0,-100,0);
+glm::vec3 endCollisionPositionGiant = glm::vec3(0,-100,0);			//end collision in 3D coord space for each picture; goes 0-1 in x and y from top left to bottom right
 glm::vec3 endCollisionPositionNorth = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionSouth = glm::vec3(0,-100,0);
 
-
 //angle of rotation and position of camera
-static float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, zrot = 0.0, angle=0.0;
+static float xpos = 0.0, ypos = 0.0, zpos = 0.0, xrot = 0.0, yrot = 0.0, zrot = 0.0, angle = 0.0;
 
 using namespace std;
 
@@ -150,10 +143,11 @@ void warpPictures(int picture) {
 		glLoadIdentity();
 		
 		warpShader.Use();
-		glUniform2i(warpShader.size_handle, graphicsMuseum->pictures[picture].width, graphicsMuseum->pictures[picture].height);
-		glUniform2i(warpShader.mouse_position, lastCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-lastCollisionPositionWest.y);
-		glUniform2i(warpShader.last_mouse_position, endCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-endCollisionPositionWest.y);
-		glUniform2i(warpShader.first_mouse_position, startCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-startCollisionPositionWest.y);	
+		glUniform2f(warpShader.size_handle, graphicsMuseum->pictures[picture].width * graphicsMuseum->pictures[picture].frameRelativeScaleFactorX,
+			graphicsMuseum->pictures[picture].height * graphicsMuseum->pictures[picture].frameRelativeScaleFactorY);
+		glUniform2f(warpShader.mouse_position, correctedLastCollisionPositionGiant.x, 1-correctedLastCollisionPositionGiant.y);
+		glUniform2f(warpShader.last_mouse_position, endCollisionPositionGiant.x, 1-endCollisionPositionGiant.y);
+		glUniform2f(warpShader.first_mouse_position, startCollisionPositionGiant.x, 1-startCollisionPositionGiant.y);	
 		glBindTexture(GL_TEXTURE_2D, pictures[picture]);
 		glUniform1i(warpShader.texture, 0);//GL_TEXTURE0 + pictures[picture]);
 
@@ -176,12 +170,9 @@ void warpPictures(int picture) {
 void DisplayFunc()
 {
 
-	
-
 	for(int i = 0; i < 7; ++i) {
 		warpPictures(i);
 	}
-	
 	
 	
 	CheckForGLErrors("Start Display: ");
@@ -196,23 +187,24 @@ void DisplayFunc()
 	glMatrixMode(GL_MODELVIEW);
 
 	glEnable(GL_DEPTH_TEST);
+	
 	graphicsMuseum->render(&fbo);
 	
 	glLoadIdentity();
 	glTranslated(0,1.75,-5.5);
 	glScalef(0.35f,0.35f,0.35f);
 	chandelierOuterTexture.Bind();
-	chandelierOuter->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierOuter->Draw((PlanarMesh::OutArray));
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	
 	if(lastCollisionPositionGiant.y != -100){
 	glLoadIdentity();
 	glTranslated(lastCollisionPositionGiant.x,lastCollisionPositionGiant.y,lastCollisionPositionGiant.z);
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	}
 
 	if(lastCollisionPositionNorth.y != -100){
@@ -220,7 +212,7 @@ void DisplayFunc()
 	glTranslated(lastCollisionPositionNorth.x,lastCollisionPositionNorth.y,lastCollisionPositionNorth.z);
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	}
 
 	if(lastCollisionPositionWest.y != -100){
@@ -228,7 +220,7 @@ void DisplayFunc()
 	glTranslated(lastCollisionPositionWest.x,lastCollisionPositionWest.y,lastCollisionPositionWest.z);
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	}
 
 	if(lastCollisionPositionEast.y != -100){
@@ -236,7 +228,7 @@ void DisplayFunc()
 	glTranslated(lastCollisionPositionEast.x,lastCollisionPositionEast.y,lastCollisionPositionEast.z);
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	}
 
 	if(lastCollisionPositionSouth.y != -100){
@@ -244,12 +236,11 @@ void DisplayFunc()
 	glTranslated(lastCollisionPositionSouth.x,lastCollisionPositionSouth.y,lastCollisionPositionSouth.z);
 	glScalef(2.0f,2.0f,2.0f);
 	chandelierLightTexture.Bind();
-	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
+	chandelierLight->Draw(PlanarMesh::OutArray);
 	}
 
 	float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
-
-
+	
 	glutSwapBuffers();
 	CheckForGLErrors("End Display: ");
 }
@@ -530,9 +521,9 @@ void CloseFunc()
 }
 
 void checkForMouseCollisions(int startLastEnd){
-	float wallPlaneWestDistance = -44+0.02; //picture is 0.02 away from wall
-	float wallPlaneNorthDistance = -18+0.02;
-	float wallPlaneGiantDistance = -300+0.02;
+	float wallPlaneWestDistance = (float) (-44 + 0.02); //picture is 0.02 away from wall
+	float wallPlaneNorthDistance = (float) (-18 + 0.02);
+	float wallPlaneGiantDistance = (float) (-300 + 0.02);
 
 	glLoadIdentity();
 	GLint viewport[4];                  // Where The Viewport Values Will Be Stored
@@ -548,18 +539,20 @@ void checkForMouseCollisions(int startLastEnd){
 	winY = (float) mousePos.y;
 		
 	winY = (float)viewport[3] - winY;           // Subtract The Current Mouse Y Coordinate From The Screen Height.
-	glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+	glReadPixels((GLint)winX, (GLint)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
 	GLdouble posX, posY, posZ;              // Hold The Final Values
 
 	gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
 	vec3 line =  glm::vec3(posX, posY, posZ);
 
+	//cout << "\nUnprojected " << posX << " " << posY << " " << posZ;
+
 	//east and west walls
-	float bottom = posX-xpos;
-	float xPositionDifference = posX - xpos;
-	float yPositionDifference = posY - ypos;
-	float zPositionDifference = posZ - zpos;
+	float bottom = (float) (posX-xpos);
+	float xPositionDifference = (float) (posX - xpos);
+	float yPositionDifference = (float) (posY - ypos);
+	float zPositionDifference = (float) (posZ - zpos);
 
 	float t;
 	if((bottom !=0)){
@@ -570,10 +563,6 @@ void checkForMouseCollisions(int startLastEnd){
 	startCollisionPositionWest.x = xpos + t * xPositionDifference;
 	startCollisionPositionWest.y = ypos + t * yPositionDifference;
 	startCollisionPositionWest.z = zpos + t * zPositionDifference;
-
-
-
-
 	}
 	else if(startLastEnd == 1){
 	lastCollisionPositionWest.x = xpos + t * xPositionDifference;
@@ -613,7 +602,7 @@ void checkForMouseCollisions(int startLastEnd){
 	}
 
 	//north and south walls
-	bottom = posZ -zpos;
+	bottom = (float) (posZ -zpos);
 	if((bottom !=0)){
 	t = ((wallPlaneNorthDistance-zpos)/bottom);
 	if(t > 0){
@@ -668,16 +657,38 @@ void checkForMouseCollisions(int startLastEnd){
 	startCollisionPositionGiant.x = xpos + t * xPositionDifference;
 	startCollisionPositionGiant.y = ypos + t * yPositionDifference;
 	startCollisionPositionGiant.z = zpos + t * zPositionDifference;
+
+	cout << "\nTop Left coord is " << graphicsMuseum->pictures[2].topLeftCoord.x << " " << graphicsMuseum->pictures[2].topLeftCoord.y;
+	cout << "\nBottom Right coord is " << graphicsMuseum->pictures[2].bottomRightCoord.x << " " << graphicsMuseum->pictures[2].bottomRightCoord.y;
+	cout << "\nDiff is " << graphicsMuseum->pictures[2].bottomRightMinusTopLeft.x << " " << graphicsMuseum->pictures[2].bottomRightMinusTopLeft.y;
+
+	startCollisionPositionGiant.x = (startCollisionPositionGiant.x - graphicsMuseum->pictures[2].topLeftCoord.x)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.x;
+	startCollisionPositionGiant.y = (startCollisionPositionGiant.y - graphicsMuseum->pictures[2].topLeftCoord.y)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.y;
+
+	cout << "\nStart collision is " << startCollisionPositionGiant.x << " " << startCollisionPositionGiant.y;
+
 	}
 	else if(startLastEnd == 1){
 	lastCollisionPositionGiant.x = xpos + t * xPositionDifference;
 	lastCollisionPositionGiant.y = ypos + t * yPositionDifference;
 	lastCollisionPositionGiant.z = zpos + t * zPositionDifference;
+
+	correctedLastCollisionPositionGiant.x = (lastCollisionPositionGiant.x - graphicsMuseum->pictures[2].topLeftCoord.x)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.x;
+	correctedLastCollisionPositionGiant.y = (lastCollisionPositionGiant.y - graphicsMuseum->pictures[2].topLeftCoord.y)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.y;
+
+	cout << "\nLast collision is " << correctedLastCollisionPositionGiant.x << " " << correctedLastCollisionPositionGiant.y;
+
 	}
 	else if(startLastEnd == 2){
 	endCollisionPositionGiant.x = xpos + t * xPositionDifference;
 	endCollisionPositionGiant.y = ypos + t * yPositionDifference;
 	endCollisionPositionGiant.z = zpos + t * zPositionDifference;
+
+	endCollisionPositionGiant.x = (endCollisionPositionGiant.x - graphicsMuseum->pictures[2].topLeftCoord.x)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.x;
+	endCollisionPositionGiant.y = (endCollisionPositionGiant.y - graphicsMuseum->pictures[2].topLeftCoord.y)/graphicsMuseum->pictures[2].bottomRightMinusTopLeft.y;
+
+	cout << "\nEnd collision is " << endCollisionPositionGiant.x << " " << endCollisionPositionGiant.y;
+
 	}
 	else cout << "Bad ENUM to collision checking";
 
@@ -695,16 +706,13 @@ void MouseFunc(int button, int state, int x, int y){
 		firstMousePos.y = (float)y;
 		lastMouseXPosition = x;
 		lastMouseYPosition = y;
-	//	cout << "\nReceived Left Button Down with XPos: ";
-//		cout << x;
-	//	cout << " and YPos: ";
-	//	cout << y;
+//		cout << "\nReceived Left Button Down with XPos: " << x << " and YPos: " << y;
 		checkForMouseCollisions(0);
 	}
 	else if(button !=GLUT_RIGHT_BUTTON && button != GLUT_MIDDLE_BUTTON) {
 		lastMouseXPosition = -1;
 		lastMouseYPosition = -1;
-		//firstMousePos.x = -1;
+	//	firstMousePos.x = -1;
 		//firstMousePos.y = -1;
 		checkForMouseCollisions(2);
 	//	cout << "\nReset Mouse Position";
@@ -808,7 +816,7 @@ int main(int argc, char * argv[])
 		cerr << "Failed to load Chandelier Outer texture." << endl;
 	}
 
-	if (chandelierLightTexture.Initialize("moon.jpg") == false)
+	if (chandelierLightTexture.Initialize("sky.jpg") == false)
 	{
 		cerr << "Failed to load Chandelier Light texture." << endl;
 	}
@@ -823,7 +831,7 @@ int main(int argc, char * argv[])
 	pictures[7] = ilutGLLoadImage("frame1.png");
 
 	for(int i = 0; i < 7; ++i) {
-		graphicsMuseum->pictures.push_back(Picture(&pictures[i], &pictures[7]));
+		graphicsMuseum->pictures.push_back(Picture(&pictures[i], &pictures[7], &fbo, i, &warpShader, &warpShader));
 	}
 
 	chandelierOuter->ApplyCustomization(chandelier);

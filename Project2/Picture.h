@@ -21,12 +21,25 @@ private:
 public:
 	double aspect;
 	glm::vec3 worldCenterPosition;
-	static float scaleFactorX;
-	static float scaleFactorY;
+	float frameRelativeScaleFactorX;
+	float frameRelativeScaleFactorY;
+	float scaleFactorX;
+	float scaleFactorY;
+
+	glm::vec3 topLeftCoord;
+	glm::vec3 bottomRightCoord;
+	glm::vec3 bottomRightMinusTopLeft;
+
 	GLuint frame;
-	GLuint picture;
 	ILuint il_handle, width, height;
-	Picture(GLuint * picTex, GLuint * frameTex);
-	void render(GLuint texture);
+	FrameBufferObject * fbo;
+	int colorAttachmentIndex;
+	Shader *lightShader;
+	Shader *distortionShader;
+
+	Picture(GLuint * picTex, GLuint * frameTex, FrameBufferObject * fbo, int colorAttachmentIndex, Shader *lightShader, Shader *distortionShader);
+	void render();
+
+	void setWorldCenterPosition(glm::vec3 pos);
 
 };

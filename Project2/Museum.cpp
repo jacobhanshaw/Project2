@@ -43,8 +43,8 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	pictures[0].worldCenterPosition = glm::vec3(-32.0f, 0.0f, -18.0f);
-	pictures[0].render(fbo->texture_handles[1]);
+	pictures[1].setWorldCenterPosition(glm::vec3(-32.0f, 0.0f, (-18.0f + 0.02)));
+	pictures[1].render();
 	glPopMatrix();
 
 	//NE Wall
@@ -55,7 +55,8 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	pictures[0].render(fbo->texture_handles[3]);
+	pictures[3].setWorldCenterPosition(glm::vec3(32.0f, 0.0f, (-18.0f + 0.02)));
+	pictures[3].render();
 	glPopMatrix();
 
 	//Giant Wall
@@ -67,7 +68,10 @@ void Museum::render(FrameBufferObject * fbo) {
 	MakeTextureQuad(1,1);
 	glPopMatrix();
 	glScalef(25.0f, 25.0f, 1.0f);
-	pictures[0].render(fbo->texture_handles[2]);
+	pictures[2].scaleFactorX = 25;
+	pictures[2].scaleFactorY = 25;
+	pictures[2].setWorldCenterPosition(glm::vec3(0.0f, 0.0f, (-300.0f + 0.02)));
+	pictures[2].render();
 	glPopMatrix();
 
 	//north walls end
@@ -98,7 +102,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	pictures[0].render(fbo->texture_handles[6]);
+	//pictures[0].render(fbo->texture_handles[6]);
 	glPopMatrix();
 
 	//SE Wall
@@ -109,7 +113,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	pictures[0].render(fbo->texture_handles[5]);
+	//pictures[0].render(fbo->texture_handles[5]);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -153,7 +157,7 @@ void Museum::render(FrameBufferObject * fbo) {
 
 	glPushMatrix();
 	//glScalef(0.5f,1.0f,2.0f);
-	pictures[0].render(fbo->texture_handles[4]);
+//	pictures[0].render(fbo->texture_handles[4]);
 	glPopMatrix();
 
 	glPopMatrix();
@@ -203,7 +207,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(9.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
-	pictures[0].render(fbo->texture_handles[0]);
+	//pictures[0].render(fbo->texture_handles[0]);
 	glPopMatrix();
 
 	glPushMatrix();
