@@ -20,6 +20,9 @@ private:
 
 public:
 	double aspect;
+	glm::vec3 worldCenterPosition;
+	static float scaleFactorX;
+	static float scaleFactorY;
 	GLuint frame;
 	GLuint picture;
 	ILuint il_handle, width, height;

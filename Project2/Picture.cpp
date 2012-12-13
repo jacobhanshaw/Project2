@@ -1,5 +1,7 @@
 #include "Picture.h"
 
+float Picture::scaleFactorX = 0.79;
+float Picture::scaleFactorY = 0.75;
 
 Picture::Picture(GLuint * picTex, GLuint * frameTex) {
 	il_handle = ilGenImage();
@@ -10,6 +12,8 @@ Picture::Picture(GLuint * picTex, GLuint * frameTex) {
 	frame = *(frameTex);
 	this->position = glm::vec2();
 	aspect = width/height;
+	scaleFactorX = 0.79;
+	scaleFactorY = 0.75;
 }
 
 
@@ -33,7 +37,7 @@ void Picture::render(GLuint texture) {
 		glVertex3d(1, -1, 0);
 	glEnd();
 
-	glScalef(.79, .75, 1);
+	glScalef(scaleFactorX, scaleFactorY, 1);
 
 	glTranslatef(0, 0, .01);
 	

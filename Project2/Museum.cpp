@@ -43,6 +43,7 @@ void Museum::render(FrameBufferObject * fbo) {
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
+	pictures[0].worldCenterPosition = glm::vec3(-32.0f, 0.0f, -18.0f);
 	pictures[0].render(fbo->texture_handles[1]);
 	glPopMatrix();
 
@@ -144,11 +145,17 @@ void Museum::render(FrameBufferObject * fbo) {
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -11.0f);
 	this->wall.Bind();
+
 	glPushMatrix();
 	glScalef(9.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
+
+	glPushMatrix();
+	//glScalef(0.5f,1.0f,2.0f);
 	pictures[0].render(fbo->texture_handles[4]);
+	glPopMatrix();
+
 	glPopMatrix();
 
 	glPushMatrix();

@@ -104,10 +104,11 @@ void camera () {
 //function used in debugging to check for GL errors
 // prints any error to the console if one is found
 
-bool CheckGLErrors(string location) {
+bool CheckForGLErrors(string location) {
 	bool error_found = false;
 	GLenum error;
 	const GLubyte *errorString;
+
 	while ((error = glGetError()) != GL_NO_ERROR) {
 		cout <<"\n";
 		cout <<location;
@@ -154,7 +155,7 @@ void warpPictures(int picture) {
 		glUniform2i(warpShader.last_mouse_position, endCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-endCollisionPositionWest.y);
 		glUniform2i(warpShader.first_mouse_position, startCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-startCollisionPositionWest.y);	
 		glBindTexture(GL_TEXTURE_2D, pictures[picture]);
-		glUniform1i(warpShader.texture, GL_TEXTURE0 + pictures[picture]);
+		glUniform1i(warpShader.texture, 0);//GL_TEXTURE0 + pictures[picture]);
 
 		glBegin(GL_QUADS);
             glVertex3f  (-1, 1, -2); // Top Left
@@ -174,12 +175,16 @@ void warpPictures(int picture) {
 
 void DisplayFunc()
 {
-	for(int i = 0; i < 8; ++i) {
+
+	
+
+	for(int i = 0; i < 7; ++i) {
 		warpPictures(i);
 	}
 	
-
-	CheckGLErrors("Start Display: ");
+	
+	
+	CheckForGLErrors("Start Display: ");
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, window_width, window_height);
@@ -187,10 +192,8 @@ void DisplayFunc()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40.0, double(window_width) / double(window_height), 1, 500);
-	//glOrtho(0, window_width, 0, window_height, 1, 500);
 	camera();
 	glMatrixMode(GL_MODELVIEW);
-	//gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
 
 	glEnable(GL_DEPTH_TEST);
 	graphicsMuseum->render(&fbo);
@@ -244,73 +247,11 @@ void DisplayFunc()
 	chandelierLight->Draw(PlanarMesh::WhichArray::OutArray);
 	}
 
-//	glEnable(GL_DEPTH_TEST);
-//	RenderIntoFrameBuffer();
 	float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
 
-	/*
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(15, double(window_width) / double(window_height), 1, 10);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
-	glRotatef(time * 30.0f, 0.0f, 1.0f, 0.0f);
-	glRotatef(-30, 1.0f, 0.0f, 0.0f);
-	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
-	glEnable(GL_TEXTURE_2D);
-	
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex2f(-0.5f, -0.5f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex2f(0.5f, -0.5f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex2f(0.5f, 0.5f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex2f(-0.5f, 0.5f);
-	glEnd();
-	*/
-	//glDrawElements(GL_TRIANGLES , graphicsMuseum->wallA->GetNumberOfElements(), GL_UNSIGNED_INT , graphicsMuseum->wallA->GetTriangleIndexArray());
-//	glBindTexture(GL_TEXTURE_2D, 0);
-	//glDisable(GL_TEXTURE_2D);
-	/*
-	glClearColor(0, 0, 0.5, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, window_width, window_height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-1, 1, -1, 1, 1, 10);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	
-	shader.Use();
-	glUniform2i(shader.size_handle, window_width, window_height);
-	glUniform2i(shader.center_handle_red, 256, 256);
-	glUniform2i(shader.center_handle_green, 100, 100);
-	glUniform2i(shader.mouse_position, mousePos.x, window_height-mousePos.y);
-	glUniform2i(shader.last_mouse_position, lastMouseXPosition, window_height-lastMouseYPosition);
-	glUniform2i(shader.first_mouse_position, firstMousePos.x, window_height-firstMousePos.y);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, fbo.texture_handles[0]);
-	glUniform1i(shader.texture, 0);
 
-	glBegin(GL_QUADS);
-            glVertex3f  (-1, 1, -2); // Top Left
-            glVertex3f  (-1, -1, -2); // Bottom Left
-            glVertex3f  (1, -1, -2); // Bottom Right
-            glVertex3f  (1, 1, -2); // Top Right
-	glEnd();
-
-
-
-	glUseProgram(0);
-
-	*/
 	glutSwapBuffers();
-	CheckGLErrors("End Display: ");
+	CheckForGLErrors("End Display: ");
 }
 
 void TimerFunc(int period)
@@ -359,7 +300,7 @@ void SpecialFunc(int c, int x, int y)
 	}
 }
 
-bool checkForWallCollisions(int newX, int newY, int newZ) {
+bool checkForWallCollisions(float newX, float newY, float newZ) {
 	if(!(newY >= 5 || newY <= -5)){
 		if(newZ >= 28) return false;
 		if(newZ <= -100) return false;
@@ -584,13 +525,14 @@ void KeyboardFunc(unsigned char c, int x, int y)
 void CloseFunc()
 {
 	warpShader.TakeDown();
+	fbo.TakeDown();
 
 }
 
 void checkForMouseCollisions(int startLastEnd){
-	float wallPlaneWestDistance = -44;
-	float wallPlaneNorthDistance = -18;
-	float wallPlaneGiantDistance = -300;
+	float wallPlaneWestDistance = -44+0.02; //picture is 0.02 away from wall
+	float wallPlaneNorthDistance = -18+0.02;
+	float wallPlaneGiantDistance = -300+0.02;
 
 	glLoadIdentity();
 	GLint viewport[4];                  // Where The Viewport Values Will Be Stored
@@ -628,6 +570,10 @@ void checkForMouseCollisions(int startLastEnd){
 	startCollisionPositionWest.x = xpos + t * xPositionDifference;
 	startCollisionPositionWest.y = ypos + t * yPositionDifference;
 	startCollisionPositionWest.z = zpos + t * zPositionDifference;
+
+
+
+
 	}
 	else if(startLastEnd == 1){
 	lastCollisionPositionWest.x = xpos + t * xPositionDifference;
@@ -857,7 +803,7 @@ int main(int argc, char * argv[])
 		cerr << "Failed to load Art Museum Floor texture." << endl;
 	}
 
-	if (chandelierOuterTexture.Initialize("light1.jpg") == false)
+	if (chandelierOuterTexture.Initialize("chandelier0.jpg") == false)
 	{
 		cerr << "Failed to load Chandelier Outer texture." << endl;
 	}
@@ -876,7 +822,7 @@ int main(int argc, char * argv[])
 	pictures[6] = ilutGLLoadImage("floor0.jpg");
 	pictures[7] = ilutGLLoadImage("frame1.png");
 
-	for(int i = 0; i < 8; ++i) {
+	for(int i = 0; i < 7; ++i) {
 		graphicsMuseum->pictures.push_back(Picture(&pictures[i], &pictures[7]));
 	}
 
