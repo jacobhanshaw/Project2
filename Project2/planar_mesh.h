@@ -39,7 +39,7 @@ public:
 	glm::uvec3 * GetTriangleIndexArray();
 
 	bool open;
-
+	
 	int GetSizeOfArray()
 	{
 		return (int) VInArray.size();

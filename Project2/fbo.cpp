@@ -55,16 +55,16 @@ bool FrameBufferObject::Initialize(glm::ivec2 size, int number_of_color_attachme
 	for (int i = 0; i < number_of_color_attachments; i++)
 		this->texture_handles[i] = GLuint(-1);
 
-	if (!CheckGLErrors("FrameBufferObject::Initialize - purging errors prior to initializing frame buffer object."))
-		return false;
+	//if (!CheckGLErrors("FrameBufferObject::Initialize - purging errors prior to initializing frame buffer object."))
+	//	return false;
 
 	printf("handle %i\n", &this->framebuffer_handle);
 
 	glGenFramebuffers(1, &this->framebuffer_handle);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer_handle);
 
-	if (!CheckGLErrors("FrameBufferObject::Initialize - purging errors prior to initializing textures."))
-		return false;
+	//if (!CheckGLErrors("FrameBufferObject::Initialize - purging errors prior to initializing textures."))
+	//	return false;
 
 	glGenTextures(number_of_color_attachments, this->texture_handles);
 	for (int i = 0; i < number_of_color_attachments; i++)

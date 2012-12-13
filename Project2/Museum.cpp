@@ -24,11 +24,8 @@ void Museum::render(FrameBufferObject * fbo) {
 	glPushMatrix();
 	glTranslatef(-3.0f, 0.0f, -5.0f);
 	this->wall.Bind();
-	glPushMatrix();
 	glScalef(2.0f, 2.5f, 1.0f);
-	MakeTextureQuad(1,1);
-	glPopMatrix();	
-	pictures[0].render(fbo->texture_handles[0]);
+	MakeTextureQuad(1,1);	
 	glPopMatrix();
 
 	glPushMatrix();
@@ -38,25 +35,38 @@ void Museum::render(FrameBufferObject * fbo) {
 	MakeTextureQuad(1,1);
 	glPopMatrix();
 
+	//NW Wall
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[1]);
+	glPopMatrix();
 
+	//NE Wall
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[3]);
+	glPopMatrix();
 
+	//Giant Wall
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -150.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(50.0f, 50.0f, 1.0f);
 	MakeTextureQuad(1,1);
+	glPopMatrix();
+	glScalef(25.0f, 25.0f, 1.0f);
+	pictures[0].render(fbo->texture_handles[2]);
 	glPopMatrix();
 
 	//north walls end
@@ -79,18 +89,26 @@ void Museum::render(FrameBufferObject * fbo) {
 	MakeTextureQuad(1,1);
 	glPopMatrix();
 
+	//SW Wall
 	glPushMatrix();
 	glTranslatef(-8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
 	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[6]);
+	glPopMatrix();
 
+	//SE Wall
 	glPushMatrix();
 	glTranslatef(8.0f, 0.0f, -9.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(3.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
+	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[5]);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -126,8 +144,11 @@ void Museum::render(FrameBufferObject * fbo) {
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -11.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(9.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
+	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[4]);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -171,8 +192,11 @@ void Museum::render(FrameBufferObject * fbo) {
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -11.0f);
 	this->wall.Bind();
+	glPushMatrix();
 	glScalef(9.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
+	glPopMatrix();
+	pictures[0].render(fbo->texture_handles[0]);
 	glPopMatrix();
 
 	glPushMatrix();

@@ -30,6 +30,17 @@ struct point {
 	int x;
 	int y;
 };
+/*
+GLuint WPicture;
+GLuint WNPicture;
+GLuint WSPicture;
+GLuint ENPicture;
+GLuint ESPicture;
+GLuint EPicture;
+GLuint GPicture;
+GLuint frame;
+*/
+GLuint pictures[8];
 
 Shader warpShader = Shader();
 int lastMouseXPosition = -1;
@@ -58,7 +69,6 @@ glm::vec3 startCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionSouth = glm::vec3(0,-100,0);
 
-glm::vec3 startCollisionPosition [4];
 
 glm::vec3 lastCollisionPositionGiant = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionNorth = glm::vec3(0,-100,0);
@@ -66,7 +76,6 @@ glm::vec3 lastCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionSouth = glm::vec3(0,-100,0);
 
-glm::vec3 lastCollisionPosition [4];
 
 glm::vec3 endCollisionPositionGiant = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionNorth = glm::vec3(0,-100,0);
@@ -74,7 +83,6 @@ glm::vec3 endCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionSouth = glm::vec3(0,-100,0);
 
-glm::vec3 endCollisionPosition [4];
 
 //angle of rotation and position of camera
 static float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, zrot = 0.0, angle=0.0;
@@ -95,6 +103,7 @@ void camera () {
 
 //function used in debugging to check for GL errors
 // prints any error to the console if one is found
+
 bool CheckGLErrors(string location) {
 	bool error_found = false;
 	GLenum error;
@@ -109,40 +118,6 @@ bool CheckGLErrors(string location) {
 	return error_found;
 }
 
-void RenderIntoFrameBuffer()
-{
-
-
-float time = float(glutGet(GLUT_ELAPSED_TIME)) / 1000.0f;
-
-	fbo.Bind();
-	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPushAttrib(GL_VIEWPORT_BIT | GL_TRANSFORM_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 0.2, 10);
-	glViewport(0, 0, fbo.size.x, fbo.size.y);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-//	gluLookAt(0, 0, 5.5, 0, 0, 0, 0, 1, 0);
-	glRotatef(-time * 60.0f, 1.0f, 1.0f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex2f(0.0f, 0.5f);
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex2f(-0.5f, -0.5f);
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex2f(0.5f, -0.5f);
-	glEnd(); 
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPopAttrib();
-	fbo.Unbind();
-}
 
 float chandelier(float input) {
 	double result;
@@ -159,45 +134,51 @@ float sphere(float input) {
 	return sqrt(0.25f - input * input);
 }
 
-void warpPictures(int wall) {
-	fbo.Bind();
+void warpPictures(int picture) {
+	//West Wall
+	fbo.Bind(picture);
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPushAttrib(GL_VIEWPORT_BIT | GL_TRANSFORM_BIT);
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadIdentity();
-		gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 1, 10);
+		gluPerspective(20, fbo.size.x/fbo.size.y, 1, 10);
 		glViewport(0, 0, fbo.size.x, fbo.size.y);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		
 		warpShader.Use();
-		glUniform2i(warpShader.size_handle, graphicsMuseum->pictures[wall].picture.width, graphicsMuseum->pictures[wall].picture.height);
-		glUniform2i(warpShader.mouse_position, lastCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-lastCollisionPosition[wall].y);
-		glUniform2i(warpShader.last_mouse_position, endCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-endCollisionPosition[wall].y);
-		glUniform2i(warpShader.first_mouse_position, startCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-startCollisionPosition[wall].y);
-		glBindTexture(GL_TEXTURE_2D, graphicsMuseum->pictures[wall].picture.il_texture_handle);
-		glUniform1i(warpShader.texture, 0);
+		glUniform2i(warpShader.size_handle, graphicsMuseum->pictures[picture].width, graphicsMuseum->pictures[picture].height);
+		glUniform2i(warpShader.mouse_position, lastCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-lastCollisionPositionWest.y);
+		glUniform2i(warpShader.last_mouse_position, endCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-endCollisionPositionWest.y);
+		glUniform2i(warpShader.first_mouse_position, startCollisionPositionWest.x, graphicsMuseum->pictures[picture].height-startCollisionPositionWest.y);	
+		glBindTexture(GL_TEXTURE_2D, pictures[picture]);
+		glUniform1i(warpShader.texture, GL_TEXTURE0 + pictures[picture]);
 
 		glBegin(GL_QUADS);
             glVertex3f  (-1, 1, -2); // Top Left
-            glVertex3f  (-1, -1, -2); // Bottom Left
+            glVertex3f  (1, 1, -2); // Bottom Left
             glVertex3f  (1, -1, -2); // Bottom Right
-            glVertex3f  (1, 1, -2); // Top Right
+            glVertex3f  (-1, -1, -2); // Top Right
 		glEnd();
 
 		glUseProgram(0);
-
+		
 		glMatrixMode(GL_PROJECTION);
 		glPopMatrix();
 		glPopAttrib();
 	fbo.Unbind();
+
 }
 
 void DisplayFunc()
 {
-	warpPictures(0);
+	for(int i = 0; i < 8; ++i) {
+		warpPictures(i);
+	}
+	
+
 	CheckGLErrors("Start Display: ");
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -527,7 +508,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 void CloseFunc()
 {
 	warpShader.TakeDown();
-
+	fbo.TakeDown();
 }
 
 void checkForMouseCollisions(int startLastEnd){
@@ -684,25 +665,6 @@ void checkForMouseCollisions(int startLastEnd){
 	}
 	}
 
-
-	startCollisionPosition[0] = startCollisionPositionGiant;	
-	startCollisionPosition[1] = startCollisionPositionNorth;
-	startCollisionPosition[2] = startCollisionPositionEast;
-	startCollisionPosition[3] = startCollisionPositionWest;
-	startCollisionPosition[4] = startCollisionPositionSouth;
-
-	lastCollisionPosition[0] = lastCollisionPositionGiant;	
-	lastCollisionPosition[1] = lastCollisionPositionNorth;
-	lastCollisionPosition[2] = lastCollisionPositionEast;
-	lastCollisionPosition[3] = lastCollisionPositionWest;
-	lastCollisionPosition[4] = lastCollisionPositionSouth;
-
-	endCollisionPosition[0] = endCollisionPositionGiant;	
-	endCollisionPosition[1] = endCollisionPositionNorth;
-	endCollisionPosition[2] = endCollisionPositionEast;
-	endCollisionPosition[3] = endCollisionPositionWest;
-	endCollisionPosition[4] = endCollisionPositionSouth;
-
 }
 
 
@@ -764,7 +726,7 @@ int main(int argc, char * argv[])
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
+	glEnable(GL_TEXTURE_2D);
 	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE , 1.0);
 
 	//////set up light position
@@ -791,7 +753,7 @@ int main(int argc, char * argv[])
 		cerr << "GLEW failed to initialize." << endl;
 		return 0;
 	}
-	if (!fbo.Initialize(glm::ivec2(512, 512), 1, true))
+	if (!fbo.Initialize(glm::ivec2(512, 512), 7, true))
 	{
 		cerr << "Frame buffer failed to initialize." << endl;
 		return 0;
@@ -831,13 +793,24 @@ int main(int argc, char * argv[])
 	{
 		cerr << "Failed to load Chandelier Light texture." << endl;
 	}
-	graphicsMuseum->pictures.push_back(Picture());
-	graphicsMuseum->pictures[0].frame.Initialize("frame1.png");
-	graphicsMuseum->pictures[0].picture.Initialize("earth.jpg");
+
+	pictures[0] = ilutGLLoadImage("computer.jpg");
+	pictures[1] = ilutGLLoadImage("dragon.jpg");
+	pictures[2] = ilutGLLoadImage("perry-1.jpg");
+	pictures[3] = ilutGLLoadImage("blueWaterfall.jpg");
+	pictures[4] = ilutGLLoadImage("crumpled.jpg");
+	pictures[5] = ilutGLLoadImage("blue_glass_texture.jpg");
+	pictures[6] = ilutGLLoadImage("floor0.jpg");
+	pictures[7] = ilutGLLoadImage("frame1.png");
+
+	for(int i = 0; i < 8; ++i) {
+		graphicsMuseum->pictures.push_back(Picture(&pictures[i], &pictures[7]));
+	}
 
 	chandelierOuter->ApplyCustomization(chandelier);
 	chandelierLight->ApplyCustomization(sphere);
 
+	
 
 	glutMainLoop();
 	return 0;

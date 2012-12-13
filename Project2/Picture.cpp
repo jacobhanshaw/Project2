@@ -1,25 +1,25 @@
 #include "Picture.h"
 
 
-Picture::Picture() {
-	
+Picture::Picture(GLuint * picTex, GLuint * frameTex) {
+	il_handle = ilGenImage();
+	ilBindImage(il_handle);
+	width = ilGetInteger(IL_IMAGE_WIDTH);
+	height = ilGetInteger(IL_IMAGE_HEIGHT);
+	picture = *(picTex);
+	frame = *(frameTex);
 	this->position = glm::vec2();
+	aspect = width/height;
 }
-Picture::Picture(int x, int z) {
-	
-	this->position = glm::vec2(x, z);
-}
-Picture::Picture(glm::vec2 pos) {
-	
-	this->position = pos;
-}
+
 
 void Picture::render(GLuint texture) {
 	glTranslatef(position.x, 0, position.y + .01);
-	this->frame.Bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, frame);
 	glPushMatrix();
-	//glLoadIdentity();
-	glScalef(.62, 1, 1);
+
+	glScalef(1/aspect, aspect*2, 1);
 
 
 	glBegin(GL_QUADS);
@@ -42,13 +42,13 @@ void Picture::render(GLuint texture) {
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
 		glTexCoord2d(1.0, 0.0);
-		glVertex3d(1, 1, 0);
-		glTexCoord2d(0.0, 0.0);
-		glVertex3d(-1, 1, 0);
-		glTexCoord2d(0.0, 1.0);
-		glVertex3d(-1, -1, 0);
-		glTexCoord2d(1.0, 1.0);
 		glVertex3d(1, -1, 0);
+		glTexCoord2d(0.0, 0.0);
+		glVertex3d(-1, -1, 0);
+		glTexCoord2d(0.0, 1.0);
+		glVertex3d(-1, 1, 0);
+		glTexCoord2d(1.0, 1.0);
+		glVertex3d(1, 1, 0);
 	glEnd();
 
 

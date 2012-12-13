@@ -19,12 +19,11 @@ private:
 	glm::vec2 position;
 
 public:
-	ILContainer frame;
-	ILContainer picture;
-
-	Picture();
-	Picture(int x, int z);
-	Picture(glm::vec2 pos);
+	double aspect;
+	GLuint frame;
+	GLuint picture;
+	ILuint il_handle, width, height;
+	Picture(GLuint * picTex, GLuint * frameTex);
 	void render(GLuint texture);
 
 };

@@ -2,8 +2,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+#include <stdio.h>
+#include <sstream>
 
-bool CheckGLErrors(const char * caller);
+
 const char * FramebufferCompletenessError(GLint error_code);
 
 struct WindowData

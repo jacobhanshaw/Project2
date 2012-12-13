@@ -1,21 +1,9 @@
 #include <GL/glew.h>
-#include <iostream>
+#include "globals.h"
+
 
 using namespace std;
 
-bool CheckGLErrors(const char * caller)
-{
-
-	GLenum e;
-	bool r = true;
-	
-	while ((e = glGetError()) != GL_NO_ERROR)
-	{
-		r = false;
-		cout << caller << " " << gluErrorString(e) << endl;
-	}
-	return r;
-}
 
 const char * FramebufferCompletenessError(GLint error_code)
 {
