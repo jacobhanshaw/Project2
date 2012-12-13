@@ -31,7 +31,7 @@ struct point {
 	int y;
 };
 
-Shader shader = Shader();
+Shader warpShader = Shader();
 int lastMouseXPosition = -1;
 int lastMouseYPosition = -1;
 glm::vec2 firstMousePos;
@@ -58,11 +58,15 @@ glm::vec3 startCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 startCollisionPositionSouth = glm::vec3(0,-100,0);
 
+glm::vec3 startCollisionPosition [4];
+
 glm::vec3 lastCollisionPositionGiant = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionNorth = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 lastCollisionPositionSouth = glm::vec3(0,-100,0);
+
+glm::vec3 lastCollisionPosition [4];
 
 glm::vec3 endCollisionPositionGiant = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionNorth = glm::vec3(0,-100,0);
@@ -70,6 +74,7 @@ glm::vec3 endCollisionPositionEast = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionWest = glm::vec3(0,-100,0);
 glm::vec3 endCollisionPositionSouth = glm::vec3(0,-100,0);
 
+glm::vec3 endCollisionPosition [4];
 
 //angle of rotation and position of camera
 static float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, zrot = 0.0, angle=0.0;
@@ -154,8 +159,45 @@ float sphere(float input) {
 	return sqrt(0.25f - input * input);
 }
 
+void warpPictures(int wall) {
+	fbo.Bind();
+		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glPushAttrib(GL_VIEWPORT_BIT | GL_TRANSFORM_BIT);
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		gluPerspective(20, double(fbo.size.x) / double(fbo.size.y), 1, 10);
+		glViewport(0, 0, fbo.size.x, fbo.size.y);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		
+		warpShader.Use();
+		glUniform2i(warpShader.size_handle, graphicsMuseum->pictures[wall].picture.width, graphicsMuseum->pictures[wall].picture.height);
+		glUniform2i(warpShader.mouse_position, lastCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-lastCollisionPosition[wall].y);
+		glUniform2i(warpShader.last_mouse_position, endCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-endCollisionPosition[wall].y);
+		glUniform2i(warpShader.first_mouse_position, startCollisionPosition[wall].x, graphicsMuseum->pictures[wall].picture.height-startCollisionPosition[wall].y);
+		glBindTexture(GL_TEXTURE_2D, graphicsMuseum->pictures[wall].picture.il_texture_handle);
+		glUniform1i(warpShader.texture, 0);
+
+		glBegin(GL_QUADS);
+            glVertex3f  (-1, 1, -2); // Top Left
+            glVertex3f  (-1, -1, -2); // Bottom Left
+            glVertex3f  (1, -1, -2); // Bottom Right
+            glVertex3f  (1, 1, -2); // Top Right
+		glEnd();
+
+		glUseProgram(0);
+
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glPopAttrib();
+	fbo.Unbind();
+}
+
 void DisplayFunc()
 {
+	warpPictures(0);
 	CheckGLErrors("Start Display: ");
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -170,8 +212,7 @@ void DisplayFunc()
 	//gluLookAt(0, 0, 5.5, mousePos.x, mousePos.y, -3, 0, 1, 0);
 
 	glEnable(GL_DEPTH_TEST);
-
-	graphicsMuseum->render();
+	graphicsMuseum->render(&fbo);
 	
 	glLoadIdentity();
 	glTranslated(0,1.75,-5.5);
@@ -485,7 +526,7 @@ void KeyboardFunc(unsigned char c, int x, int y)
 
 void CloseFunc()
 {
-	shader.TakeDown();
+	warpShader.TakeDown();
 
 }
 
@@ -642,6 +683,26 @@ void checkForMouseCollisions(int startLastEnd){
 
 	}
 	}
+
+
+	startCollisionPosition[0] = startCollisionPositionGiant;	
+	startCollisionPosition[1] = startCollisionPositionNorth;
+	startCollisionPosition[2] = startCollisionPositionEast;
+	startCollisionPosition[3] = startCollisionPositionWest;
+	startCollisionPosition[4] = startCollisionPositionSouth;
+
+	lastCollisionPosition[0] = lastCollisionPositionGiant;	
+	lastCollisionPosition[1] = lastCollisionPositionNorth;
+	lastCollisionPosition[2] = lastCollisionPositionEast;
+	lastCollisionPosition[3] = lastCollisionPositionWest;
+	lastCollisionPosition[4] = lastCollisionPositionSouth;
+
+	endCollisionPosition[0] = endCollisionPositionGiant;	
+	endCollisionPosition[1] = endCollisionPositionNorth;
+	endCollisionPosition[2] = endCollisionPositionEast;
+	endCollisionPosition[3] = endCollisionPositionWest;
+	endCollisionPosition[4] = endCollisionPositionSouth;
+
 }
 
 
@@ -736,7 +797,7 @@ int main(int argc, char * argv[])
 		return 0;
 	}
 
-	if (!shader.Initialize("stub.vert", "stub.frag"))
+	if (!warpShader.Initialize("warp.vert", "warp.frag"))
 	{
 		return 0;
 	}
@@ -776,6 +837,8 @@ int main(int argc, char * argv[])
 
 	chandelierOuter->ApplyCustomization(chandelier);
 	chandelierLight->ApplyCustomization(sphere);
+
+
 	glutMainLoop();
 	return 0;
 }

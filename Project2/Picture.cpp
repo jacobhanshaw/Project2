@@ -14,7 +14,7 @@ Picture::Picture(glm::vec2 pos) {
 	this->position = pos;
 }
 
-void Picture::render() {
+void Picture::render(GLuint texture) {
 	glTranslatef(position.x, 0, position.y + .01);
 	this->frame.Bind();
 	glPushMatrix();
@@ -36,7 +36,10 @@ void Picture::render() {
 	glScalef(.79, .75, 1);
 
 	glTranslatef(0, 0, .01);
-	this->picture.Bind();
+	
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
 		glTexCoord2d(1.0, 0.0);
 		glVertex3d(1, 1, 0);
@@ -47,5 +50,7 @@ void Picture::render() {
 		glTexCoord2d(1.0, 1.0);
 		glVertex3d(1, -1, 0);
 	glEnd();
+
+
 	glPopMatrix();
 }

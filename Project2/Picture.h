@@ -7,6 +7,8 @@
 #include <assert.h>
 
 #include "ilcontainer.h"
+#include "shader.h"
+#include "fbo.h"
 
 using namespace std;
 
@@ -23,6 +25,6 @@ public:
 	Picture();
 	Picture(int x, int z);
 	Picture(glm::vec2 pos);
-	void render();
+	void render(GLuint texture);
 
 };

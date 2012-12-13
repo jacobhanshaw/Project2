@@ -1,12 +1,11 @@
 #include "Museum.h"
 
 Museum::Museum() {
-	
 }
 
 const float PI = 3.14159265f;
 
-void Museum::render() {
+void Museum::render(FrameBufferObject * fbo) {
 	
 //	GLboolean lightingState = glIsEnabled(GL_LIGHTING);
 //	glDisable(GL_LIGHTING);
@@ -28,8 +27,8 @@ void Museum::render() {
 	glPushMatrix();
 	glScalef(2.0f, 2.5f, 1.0f);
 	MakeTextureQuad(1,1);
-	glPopMatrix();
-	pictures[0].render();
+	glPopMatrix();	
+	pictures[0].render(fbo->texture_handles[0]);
 	glPopMatrix();
 
 	glPushMatrix();

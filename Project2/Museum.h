@@ -10,7 +10,9 @@
 
 #include "ilcontainer.h"
 #include "planar_mesh.h"
+#include "shader.h"
 #include "Picture.h"
+#include "fbo.h"
 
 using namespace std;
 using namespace glm;
@@ -30,8 +32,9 @@ public:
 
 	Museum();
 
-	void render();
+	void render(FrameBufferObject * fbo);
 	void MakeTextureQuad(int xTextureDensity, int yTextureDensity);
+
 
 private:
 
