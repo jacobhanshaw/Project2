@@ -1,97 +1,20 @@
-﻿Build started 12/13/2012 4:28:03 AM.
-     1>Project "C:\Users\Adam\Documents\GitHub\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
+﻿Build started 12/13/2012 11:05:05 AM.
+     1>Project "C:\Project2\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\freeglut\include" /I"C:\Program Files (x86)\glew\include" /I"C:\Program Files (x86)\glm-0.9.3.4" /I"C:\Program Files (x86)\DevIL-1.7.8\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(153): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(153): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(154): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(154): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(155): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(155): warning C4244: 'argument' : conversion from 'float' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(202): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(205): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(212): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(220): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(228): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(236): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(244): warning C4482: nonstandard extension used: enum 'PlanarMesh::WhichArray' used in qualified name
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(538): warning C4244: 'argument' : conversion from 'GLfloat' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(538): warning C4244: 'argument' : conversion from 'GLfloat' to 'GLint', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(548): warning C4244: 'initializing' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(554): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(555): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(556): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(559): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(560): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(561): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(565): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(566): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(567): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(576): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(577): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(578): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(581): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(582): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(583): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(586): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(587): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(588): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(596): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(602): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(603): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(604): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(607): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(608): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(609): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(612): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(613): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(614): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(623): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(624): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(625): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(628): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(629): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(630): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(633): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(634): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(635): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(643): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(649): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(650): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(651): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(654): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(655): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(656): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(659): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(660): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
-     1>c:\users\adam\documents\github\project2\project2\main.cpp(661): warning C4244: '=' : conversion from 'GLdouble' to 'float', possible loss of data
+         All outputs are up-to-date.
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Adam\Documents\GitHub\Project2\project2\Debug\Project2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\freeglut\lib" /LIBPATH:"C:\Program Files (x86)\glew\lib" /LIBPATH:"C:\Program Files (x86)\DevIL-1.7.8\lib" freeglut.lib glew32.lib DevIL.lib ILU.lib ILUT.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Project2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Adam\Documents\GitHub\Project2\project2\Debug\Project2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Adam\Documents\GitHub\Project2\project2\Debug\Project2.lib" /MACHINE:X86 Debug\Project2.exe.embed.manifest.res
-         Debug\fbo.obj
-         Debug\fbomain.obj
-         Debug\globals.obj
-         Debug\ilcontainer.obj
-         Debug\main.obj
-         Debug\Museum.obj
-         Debug\Picture.obj
-         Debug\planar_mesh.obj
-         Debug\shader.obj
+         All outputs are up-to-date.
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Project2.exe.embed.manifest" /manifest Debug\Project2.exe.intermediate.manifest
          All outputs are up-to-date.
-       LinkEmbedManifest:
-         All outputs are up-to-date.
-         Project2.vcxproj -> C:\Users\Adam\Documents\GitHub\Project2\project2\Debug\Project2.exe
        FinalizeBuildStatus:
          Deleting file "Debug\Project2.unsuccessfulbuild".
          Touching "Debug\Project2.lastbuildstate".
-     1>Done Building Project "C:\Users\Adam\Documents\GitHub\Project2\Project2\Project2.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Project2\Project2\Project2\Project2.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.24
+Time Elapsed 00:00:00.04
